@@ -1,0 +1,3 @@
+http://www.omdbapi.com/?s=harry&apikey=4ed90b3e  (s for search, returns multiple results, summarized, nt complete)
+
+http://www.omdbapi.com/?i=tt0295297&apikey=4ed90b3e  (i for imdb id - complete result, only 1 t for title)
