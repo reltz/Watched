@@ -3,9 +3,25 @@
 		Result item
 	</mat-card-header>
 	<mat-card-content>
+		<div>
+			<img src={{resultItem.Poster}} />
+		</div>
+		<div>
+			Title: {{resultItem.Title}}
+		</div>
+		<div>
+			ImdbID: {{resultItem.imdbID}}
+		</div>
+		<div>
+			Type: {{resultItem.Type}}
+		</div>
+		<div>
+			Year: {{resultItem.Year}}
+		</div>
 
 	</mat-card-content>
 	<mat-card-footer>
-
+		Add to colection?
+		<mat-icon>add</mat-icon>
 	</mat-card-footer>
 </mat-card>>

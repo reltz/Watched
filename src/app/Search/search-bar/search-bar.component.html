@@ -1,1 +1,10 @@
-<p>search-bar works!</p>
+<mat-card>
+	<mat-card-content>
+		<div>
+			<mat-form-field>
+				<input matInput autocomplete="off" [formControl]="formControl" placeholder="Movie or Series Name" type="text" />
+			</mat-form-field>
+			<button mat-raised-button (click)="doSearch()">Search</button>
+		</div>
+	</mat-card-content>
+</mat-card>
