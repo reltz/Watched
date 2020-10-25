@@ -1,13 +1,11 @@
-import { UrlHandlingStrategy } from '@angular/router';
-
 export interface ISearchResult
 {
-	Search: ISearchResult[];
+	Search: ISearchResultItem[];
 	totalResults: string;
 	Response: string;
 }
 
-export interface ISearchResult
+export interface ISearchResultItem
 {
 	Title: string;
 	Year: string;

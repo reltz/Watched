@@ -6,6 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SearchBarComponent } from './Search/search-bar/search-bar.component';
+import { SearchResultItemComponent } from './Search/search-result-item/search-result-item.component';
+import { SearchResultWrapperComponent } from './Search/search-result-wrapper/search-result-wrapper.component';
 
 const MatModules = [
 	MatCardModule,
@@ -14,6 +17,9 @@ const MatModules = [
 @NgModule({
 	declarations: [
 		AppComponent,
+		SearchBarComponent,
+		SearchResultItemComponent,
+		SearchResultWrapperComponent,
 	],
 	imports: [
 		BrowserModule,
