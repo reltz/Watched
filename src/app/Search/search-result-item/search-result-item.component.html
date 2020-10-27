@@ -1,27 +1,26 @@
 <mat-card>
 	<mat-card-header>
-		Result item
 	</mat-card-header>
 	<mat-card-content>
-		<div>
+		<div class="poster">
 			<img src={{resultItem.Poster}} />
 		</div>
 		<div>
-			Title: {{resultItem.Title}}
+			<span class="bold">Title: </span>{{resultItem.Title}}
 		</div>
 		<div>
-			ImdbID: {{resultItem.imdbID}}
+			<span class="bold">IMDB Id: </span>{{resultItem.imdbID}}
 		</div>
 		<div>
-			Type: {{resultItem.Type}}
+			<span class="bold">Type:</span> {{resultItem.Type}}
 		</div>
 		<div>
-			Year: {{resultItem.Year}}
+			<span class="bold">Year:</span> {{resultItem.Year}}
+		</div>
+		<div class="action">
+			<span class="align-with-icon"></span>Add to colection
+			<mat-icon>add</mat-icon>
 		</div>
 
 	</mat-card-content>
-	<mat-card-footer>
-		Add to colection?
-		<mat-icon>add</mat-icon>
-	</mat-card-footer>
-</mat-card>>
+</mat-card>

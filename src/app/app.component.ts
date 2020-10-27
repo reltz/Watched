@@ -12,8 +12,7 @@ import { IMovieFromApi, ISearchResult } from './Models/ApiModels';
 })
 export class AppComponent implements OnInit
 {
-	public title = 'SeriesMovies';
-	// public movie: IMovieFromApi;
+	public title = 'Watched!';
 	public response: ISearchResult;
 
 	constructor(
