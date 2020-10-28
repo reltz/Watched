@@ -1,13 +1,13 @@
-<div class="app-main-menu">
-	<h1>{{title}}</h1>
-
-
-</div>
+<mat-toolbar>
+	<mat-toolbar-row>
+		<mat-icon>movie</mat-icon>
+		<h1> {{title}} </h1>
+		<div class="nav-menu">
+			<button class="nav-item" mat-button routerLink='search'>Search</button>
+			<button class="nav-item" mat-button>Colections</button>
+		</div>
+	</mat-toolbar-row>
+</mat-toolbar>
 <div class="app-wrapper">
-	<app-search-bar></app-search-bar>
-	<app-search-result-wrapper></app-search-result-wrapper>
+	<router-outlet></router-outlet>
 </div>
-<!-- <div *ngFor="let result of response.Search">
-	{{result.Title}}
-	<img src={{result.Poster}} />
-</div> -->
