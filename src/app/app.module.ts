@@ -14,6 +14,7 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
 import { ColectionPageComponent } from './Pages/Colection/colection-page/colection-page.component';
 import { ColectionTableComponent } from './Pages/Colection/colection-table/colection-table.component';
 import { MovieComponent } from './Pages/Movie/movie/movie.component';
@@ -21,6 +22,9 @@ import { SearchBarComponent } from './Pages/Search/search-bar/search-bar.compone
 import { SearchPageComponent } from './Pages/Search/search-page/search-page.component';
 import { SearchResultItemComponent } from './Pages/Search/search-result-item/search-result-item.component';
 import { SearchResultWrapperComponent } from './Pages/Search/search-result-wrapper/search-result-wrapper.component';
+import { MainService } from './Services/main.service';
+import { WatchedQuery } from './State/WatchedQuery';
+import { WatchedStore } from './State/WatchedStore';
 
 const MatModules = [
 	MatCardModule,
@@ -42,6 +46,7 @@ const MatModules = [
 		ColectionPageComponent,
 		ColectionTableComponent,
 		MovieComponent,
+		NavigationMenuComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -52,7 +57,11 @@ const MatModules = [
 		...MatModules,
 		environment.production ? [] : AkitaNgDevtools.forRoot(),
 	],
-	providers: [],
+	providers: [
+		WatchedQuery,
+		WatchedStore,
+		MainService,
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule { }

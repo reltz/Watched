@@ -26,7 +26,12 @@ export class MainService
 	{
 		if (!this.getDb())
 		{
-			this.storage.setLocalStorageObject('{}');
+			this.storage.setLocalStorageObject({});
+			this.upsert({
+				id: 'test123',
+				name: 'testColection',
+				movies: [],
+			});
 		}
 
 		const db = this.getDb();

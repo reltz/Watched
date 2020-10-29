@@ -2,4 +2,11 @@
 
 <button mat-raised-button>Create Colection</button>
 
-<router-outlet></router-outlet>
+
+<router-outlet *ngIf="!isEmpty; else emptyState"></router-outlet>
+
+<ng-template #emptyState>
+	<div>
+		You dont have any colections yet
+	</div>
+</ng-template>

@@ -1,13 +1,4 @@
-<mat-toolbar>
-	<mat-toolbar-row>
-		<mat-icon>movie</mat-icon>
-		<h1> {{title}} </h1>
-		<div class="nav-menu">
-			<button class="nav-item" mat-button routerLink='search'>Search</button>
-			<button class="nav-item" mat-button>Colections</button>
-		</div>
-	</mat-toolbar-row>
-</mat-toolbar>
+<app-navigation-menu [title]=title></app-navigation-menu>
 <div class="app-wrapper">
 	<router-outlet></router-outlet>
 </div>

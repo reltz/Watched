@@ -1,9 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ApiAdapterService } from './Adapters/api-adapter.service';
-import { IMovieFromApi, ISearchResult } from './Models/ApiModels';
+import { MainService } from './Services/main.service';
 
 @Component({
 	selector: 'app-root',
@@ -13,18 +9,17 @@ import { IMovieFromApi, ISearchResult } from './Models/ApiModels';
 export class AppComponent implements OnInit
 {
 	public title = 'Watched!';
-	public response: ISearchResult;
+	// public response: ISearchResult;
 
 	constructor(
-		private http: HttpClient,
-		private api: ApiAdapterService,
+		private svc: MainService,
 	)
 	{
 
 	}
-
 	public ngOnInit()
 	{
+		this.svc.loadAll();
 		// this.getMovie().subscribe(x => this.movie = x);
 		// this.api.Search('Game').subscribe(x => this.response = x);
 	}
