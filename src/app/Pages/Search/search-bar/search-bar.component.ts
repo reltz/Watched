@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MainService } from '../../Services/main.service';
+import { MainService } from '../../../Services/main.service';
 
 @Component({
 	selector: 'app-search-bar',

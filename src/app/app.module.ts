@@ -6,15 +6,21 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchBarComponent } from './Search/search-bar/search-bar.component';
-import { SearchResultItemComponent } from './Search/search-result-item/search-result-item.component';
-import { SearchResultWrapperComponent } from './Search/search-result-wrapper/search-result-wrapper.component';
-import { SearchPageComponent } from './Search/search-page/search-page.component';
+import { ColectionPageComponent } from './Pages/Colection/colection-page/colection-page.component';
+import { ColectionTableComponent } from './Pages/Colection/colection-table/colection-table.component';
+import { MovieComponent } from './Pages/Movie/movie/movie.component';
+import { SearchBarComponent } from './Pages/Search/search-bar/search-bar.component';
+import { SearchPageComponent } from './Pages/Search/search-page/search-page.component';
+import { SearchResultItemComponent } from './Pages/Search/search-result-item/search-result-item.component';
+import { SearchResultWrapperComponent } from './Pages/Search/search-result-wrapper/search-result-wrapper.component';
 
 const MatModules = [
 	MatCardModule,
@@ -23,6 +29,7 @@ const MatModules = [
 	MatInputModule,
 	MatIconModule,
 	MatToolbarModule,
+	MatMenuModule,
 ];
 
 @NgModule({
@@ -32,6 +39,9 @@ const MatModules = [
 		SearchResultItemComponent,
 		SearchResultWrapperComponent,
 		SearchPageComponent,
+		ColectionPageComponent,
+		ColectionTableComponent,
+		MovieComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -40,6 +50,7 @@ const MatModules = [
 		ReactiveFormsModule,
 		HttpClientModule,
 		...MatModules,
+		environment.production ? [] : AkitaNgDevtools.forRoot(),
 	],
 	providers: [],
 	bootstrap: [AppComponent],

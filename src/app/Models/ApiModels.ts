@@ -14,6 +14,13 @@ export interface ISearchResultItem
 	Poster: string;
 }
 
+export interface IColection
+{
+	id: string;
+	name: string;
+	movies: IMovie[];
+}
+
 export interface IMovie
 {
 	Id: string;
@@ -30,8 +37,9 @@ export interface IMovie
 	// map string to array of strings
 	Countries: string[];
 	PosterUrl: string;
-	RottenTomatoes: number;
-	IMDB: number;
+	RottenTomatoesRating: number;
+	IMDBRating: number;
+	UserRating: number;
 }
 
 export interface IMovieFromApi

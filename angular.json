@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "SeriesMovies"
+    }
+  },
+  "defaultProject": "SeriesMovies",
+  "cli": {
+    "defaultCollection": "@datorama/akita"
+  }
 }

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISearchResult } from '../Models/ApiModels';
+import { map } from 'rxjs/operators';
+import { IMovie, IMovieFromApi, ISearchResult } from '../Models/ApiModels';
+import { LocalStorageAdapterService } from './local-storage-adapter.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -13,13 +15,8 @@ export class ApiAdapterService
 
 	constructor(
 		private http: HttpClient,
+		private storage: LocalStorageAdapterService,
 	) { }
-
-	// get(url: string, options?:
-	// 	 { headers?: HttpHeaders | { [header: string]: string | string[]; };
-	// 	 observe?: "body"; params?: HttpParams | { [param: string]: string | string[]; };
-	// 	  reportProgress?: boolean; responseType?: "json"; withCredentials?: boolean; }):
-	// 	  Observable<Object>
 
 	public Search(searchTerm: string): Observable<ISearchResult>
 	{
@@ -28,9 +25,47 @@ export class ApiAdapterService
 		return response;
 	}
 
+	public GetMovie(id: string): Observable<IMovie>
+	{
+		const completeUrl = this.url + this.getIdParamsAndKey(id);
+		return this.http.get<IMovieFromApi>(completeUrl, { responseType: "json" })
+			.pipe(
+				map(response => this.mapToMovie(response)),
+			);
+
+	}
+
 	private getSearchParamsAndKey(searchTerm: string): string
 	{
 		return `/?s=${searchTerm}&${this.apiKey}`;
+	}
+
+	private getIdParamsAndKey(id: string): string
+	{
+		return `/?i=${id}&${this.apiKey}`;
+	}
+
+	private mapToMovie(apiMovie: IMovieFromApi): IMovie
+	{
+		if (apiMovie)
+		{
+			return {
+				Id: apiMovie.imdbID,
+				Title: apiMovie.Title,
+				Type: apiMovie.Type,
+				Year: apiMovie.Year,
+				Runtime: apiMovie.Runtime,
+				Genres: apiMovie.Genre.split(','),
+				Director: apiMovie.Director,
+				Actors: apiMovie.Actors.split(','),
+				Language: apiMovie.Language,
+				Countries: apiMovie.Country.split(','),
+				PosterUrl: apiMovie.Poster,
+				RottenTomatoesRating: Number(apiMovie.Ratings[1].Value) * 100,
+				IMDBRating: Number((apiMovie.Ratings[0].Value).replace('%', '')),
+				UserRating: 0,
+			};
+		}
 	}
 }
 
