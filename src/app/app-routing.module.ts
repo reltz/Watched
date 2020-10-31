@@ -11,7 +11,7 @@ const routes: Routes = [
 		component: ColectionPageComponent,
 		children: [
 			{
-				path: '?id',
+				path: ':id',
 				component: ColectionTableComponent,
 			},
 		],
