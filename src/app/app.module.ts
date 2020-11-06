@@ -15,6 +15,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
+import { ColectionLandingComponent } from './Pages/Colection/colection-landing/colection-landing.component';
 import { ColectionPageComponent } from './Pages/Colection/colection-page/colection-page.component';
 import { ColectionTableComponent } from './Pages/Colection/colection-table/colection-table.component';
 import { MovieComponent } from './Pages/Movie/movie/movie.component';
@@ -23,6 +24,7 @@ import { SearchPageComponent } from './Pages/Search/search-page/search-page.comp
 import { SearchResultItemComponent } from './Pages/Search/search-result-item/search-result-item.component';
 import { SearchResultWrapperComponent } from './Pages/Search/search-result-wrapper/search-result-wrapper.component';
 import { MainService } from './Services/main.service';
+import { RoutingService } from './Services/routing.service';
 import { WatchedQuery } from './State/WatchedQuery';
 import { WatchedStore } from './State/WatchedStore';
 
@@ -47,6 +49,7 @@ const MatModules = [
 		ColectionTableComponent,
 		MovieComponent,
 		NavigationMenuComponent,
+		ColectionLandingComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -61,6 +64,7 @@ const MatModules = [
 		WatchedQuery,
 		WatchedStore,
 		MainService,
+		RoutingService,
 	],
 	bootstrap: [AppComponent],
 })

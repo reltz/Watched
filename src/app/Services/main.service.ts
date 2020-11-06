@@ -27,11 +27,6 @@ export class MainService
 		if (!this.getDb())
 		{
 			this.storage.setLocalStorageObject({});
-			this.upsert({
-				id: 'test123',
-				name: 'testColection',
-				movies: [],
-			});
 		}
 
 		const db = this.getDb();
@@ -39,6 +34,11 @@ export class MainService
 		{
 			this.store.upsert(db[key].id, db[key]);
 		});
+	}
+
+	public setActiveColection(id: string)
+	{
+		this.store.setActive(id);
 	}
 
 	public upsert(colection: IColection): void
