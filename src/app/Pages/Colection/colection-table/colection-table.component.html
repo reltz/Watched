@@ -1,4 +1,55 @@
 <div class="wrapper">
-	I AM A COLECTION TABLE
+	<table mat-table [dataSource]="DataSource">
 
+		<!-- Title column-->
+		<ng-container matColumnDef="Title">
+			<th mat-header-cell *matHeaderCellDef>Title</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.Title}}</p>
+			</td>
+		</ng-container>
+
+		<!-- Year column -->
+		<ng-container matColumnDef="Year">
+			<th mat-header-cell *matHeaderCellDef>Year</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.Year}}</p>
+			</td>
+		</ng-container>
+
+		<!-- Type column -->
+		<ng-container matColumnDef="Type">
+			<th mat-header-cell *matHeaderCellDef>Type</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.Type}}</p>
+			</td>
+		</ng-container>
+
+		<!-- Director column -->
+		<ng-container matColumnDef="Director">
+			<th mat-header-cell *matHeaderCellDef>Director</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.Director}}</p>
+			</td>
+		</ng-container>
+
+		<!-- Runtime column -->
+		<ng-container matColumnDef="Runtime">
+			<th mat-header-cell *matHeaderCellDef>Runtime</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.Runtime}}</p>
+			</td>
+		</ng-container>
+
+		<!-- Genres column -->
+		<ng-container matColumnDef="Genres">
+			<th mat-header-cell *matHeaderCellDef>Genres</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.Genres}}</p>
+			</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+		<tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
+	</table>
 </div>

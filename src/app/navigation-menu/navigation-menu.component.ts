@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IColection } from '../Models/ApiModels';
+import { RoutingService } from '../Services/routing.service';
 import { WatchedQuery } from '../State/WatchedQuery';
 
 @Component({
@@ -15,11 +16,17 @@ export class NavigationMenuComponent implements OnInit
 
 	constructor(
 		private query: WatchedQuery,
+		private routerSvc: RoutingService,
 	) { }
 
 	public ngOnInit(): void
 	{
 		this.colections$ = this.query.selectAll();
+	}
+
+	public navigateToColection(colId: string)
+	{
+		this.routerSvc.navigateColection(colId);
 	}
 
 }

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { takeWhile } from 'rxjs/operators';
 import { IColection } from 'src/app/Models/ApiModels';
-import { MainService } from 'src/app/Services/main.service';
 import { RoutingService } from 'src/app/Services/routing.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
+import { CreateColectionDialogComponent } from '../create-colection-dialog/create-colection-dialog.component';
 
 @Component({
 	selector: 'app-colection-page',
@@ -18,8 +19,8 @@ export class ColectionPageComponent implements OnInit, OnDestroy
 
 	constructor(
 		private query: WatchedQuery,
-		private svc: MainService,
 		private routingSvc: RoutingService,
+		private dialog: MatDialog,
 	) { }
 
 	public ngOnInit(): void
@@ -41,7 +42,8 @@ export class ColectionPageComponent implements OnInit, OnDestroy
 
 	public createColection()
 	{
-
+		this.dialog.open(CreateColectionDialogComponent)
+			.afterClosed();
 	}
 
 	public ngOnDestroy()

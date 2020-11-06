@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ISearchResultItem } from 'src/app/Models/ApiModels';
+import { AddToColectionDialogComponent } from '../add-to-colection-dialog/add-to-colection-dialog.component';
 
 @Component({
 	selector: 'app-search-result-item',
@@ -11,10 +13,18 @@ export class SearchResultItemComponent implements OnInit
 	@Input() public resultItem: ISearchResultItem;
 
 	constructor(
+		private dialog: MatDialog,
 	)
 	{ }
 
 	public ngOnInit(): void
 	{
+	}
+
+	public openDialog()
+	{
+		this.dialog.open(
+			AddToColectionDialogComponent, { data: this.resultItem.imdbID },
+		).afterClosed();
 	}
 }

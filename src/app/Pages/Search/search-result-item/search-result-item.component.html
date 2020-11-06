@@ -18,8 +18,10 @@
 			<span class="bold">Year:</span> {{resultItem.Year}}
 		</div>
 		<div class="action">
-			<span class="align-with-icon"></span>Add to colection
-			<mat-icon>add</mat-icon>
+			<button mat-raised-button (click)="openDialog()">
+				Add to colection
+				<mat-icon>add</mat-icon>
+			</button>
 		</div>
 
 	</mat-card-content>

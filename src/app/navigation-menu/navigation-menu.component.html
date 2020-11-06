@@ -6,7 +6,8 @@
 			<button class="nav-item" mat-button routerLink='search'>Search</button>
 			<button class="nav-item" [matMenuTriggerFor]="appMenu" mat-button routerLink="colections">Colections</button>
 			<mat-menu #appMenu="matMenu">
-				<button mat-menu-item *ngFor="let col of (colections$ | async)" routerLink='colection/{{col.id}}'>{{col.name}}</button>
+				<button mat-menu-item *ngFor="let col of (colections$ | async)"
+						(click)="navigateToColection(col.id)">{{col.name}}</button>
 			</mat-menu>
 		</div>
 	</mat-toolbar-row>

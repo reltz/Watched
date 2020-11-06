@@ -46,6 +46,7 @@ export class MainService
 		const db = this.getDb();
 		db[colection.id] = colection;
 		this.setDb(db);
+		this.setActiveColection(colection.id);
 	}
 
 	public update(colection: Partial<IColection>): void
@@ -69,7 +70,7 @@ export class MainService
 	{
 		const db = this.getDb();
 		const colection: IColection = db[colectionId];
-		if (colection && !colection.movies.find(x => x.Id === movie.Id))
+		if (colection && colection.movies && !colection.movies.find(x => x.Id === movie.Id))
 		{
 			colection.movies.push(movie);
 		}

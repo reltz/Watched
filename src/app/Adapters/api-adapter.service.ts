@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { IMovie, IMovieFromApi, ISearchResult } from '../Models/ApiModels';
 import { LocalStorageAdapterService } from './local-storage-adapter.service';
 
@@ -31,6 +31,7 @@ export class ApiAdapterService
 		return this.http.get<IMovieFromApi>(completeUrl, { responseType: "json" })
 			.pipe(
 				map(response => this.mapToMovie(response)),
+				tap(x => console.info('mapped is ', x)),
 			);
 
 	}
@@ -61,8 +62,8 @@ export class ApiAdapterService
 				Language: apiMovie.Language,
 				Countries: apiMovie.Country.split(','),
 				PosterUrl: apiMovie.Poster,
-				RottenTomatoesRating: Number(apiMovie.Ratings[1].Value) * 100,
-				IMDBRating: Number((apiMovie.Ratings[0].Value).replace('%', '')),
+				RottenTomatoesRating: apiMovie.Ratings.length > 1 ? Number((apiMovie.Ratings[1].Value).replace('%', '')) : undefined,
+				IMDBRating: Number(apiMovie.Ratings[0].Value) * 100,
 				UserRating: 0,
 			};
 		}

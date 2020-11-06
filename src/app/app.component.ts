@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MainService } from './Services/main.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit
 
 	constructor(
 		private svc: MainService,
+		private router: Router,
 	)
 	{
 
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit
 	public ngOnInit()
 	{
 		this.svc.loadAll();
+		this.router.navigateByUrl('/search');
 		// this.getMovie().subscribe(x => this.movie = x);
 		// this.api.Search('Game').subscribe(x => this.response = x);
 	}
