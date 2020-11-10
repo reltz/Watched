@@ -5,9 +5,9 @@
 		"ng": "ng",
 		"start": "ng serve",
 		"build": "ng build",
-		"build-page": "npx ng build --prod --base-href",
-		"push-page": "npx ngh",
-		"build:push": "npx build-page && npx push-page",
+		"build-page": "npx ng build --prod --base-href '/SeriesMovies/'",
+		"push-page": "npx ngh --dir=dist/SeriesMovies",
+		"build:push": "npm run build-page && npm run push-page",
 		"test": "ng test",
 		"lint": "ng lint",
 		"e2e": "ng e2e"
