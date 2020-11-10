@@ -39,7 +39,7 @@ export class AddToColectionDialogComponent implements OnInit
 			)
 			.subscribe(mov =>
 			{
-				this.svc.upsertMovie(mov, this.colectionIdControl.value);
+				this.svc.upsertOrUpdateMovie(mov, this.colectionIdControl.value);
 				this.dialogRef.close(true);
 			});
 	}

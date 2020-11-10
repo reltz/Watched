@@ -40,6 +40,7 @@ export interface IMovie
 	RottenTomatoesRating: number;
 	IMDBRating: number;
 	UserRating: number;
+	UserNotes: string;
 }
 
 export interface IMovieFromApi

@@ -21,6 +21,7 @@ export class AppComponent implements OnInit
 	}
 	public ngOnInit()
 	{
+		this.svc.init();
 		this.svc.loadAll();
 		this.router.navigateByUrl('/search');
 		// this.getMovie().subscribe(x => this.movie = x);

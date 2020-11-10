@@ -1,5 +1,8 @@
 <div class="page">
-	<h1>{{colection.name}}</h1>
+	<div class="flex">
+		<h1>{{colection.name}}</h1>
+		<button mat-raised-button (click)="save()">Save Changes <mat-icon>save</mat-icon></button>
+	</div>
 	<app-colection-table [colection]="colection"></app-colection-table>
 
 </div>

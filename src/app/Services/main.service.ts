@@ -22,18 +22,14 @@ export class MainService
 		this.currentSearchResult$ = this.currentSearch.asObservable();
 	}
 
+	public init(): void
+	{
+		this.storage.init();
+	}
+
 	public loadAll(): void
 	{
-		if (!this.getDb())
-		{
-			this.storage.setLocalStorageObject({});
-		}
-
-		const db = this.getDb();
-		Object.keys(db).forEach(key =>
-		{
-			this.store.upsert(db[key].id, db[key]);
-		});
+		this.storage.loadAll();
 	}
 
 	public setActiveColection(id: string)
@@ -43,54 +39,62 @@ export class MainService
 
 	public upsert(colection: IColection): void
 	{
-		const db = this.getDb();
-		db[colection.id] = colection;
-		this.setDb(db);
-		this.setActiveColection(colection.id);
+		try
+		{
+			this.storage.upsert(colection);
+			this.setActiveColection(colection.id);
+		} catch (e)
+		{
+			console.warn('Failed to create colection ', e);
+		}
 	}
 
 	public update(colection: Partial<IColection>): void
 	{
-		const db = this.getDb();
-
-		if (colection.name) { db[colection.id].name = colection.name; }
-		if (colection.movies) { db[colection.id].movies = colection.movies; }
-		this.setDb(db);
+		try
+		{
+			this.storage.updateCol(colection);
+		} catch (e)
+		{
+			console.warn('Failed to update colection ', e);
+		}
 	}
 
 	public delete(colectionId: string): void
 	{
-		this.store.remove(colectionId);
-		const allDb = this.getDb();
-		delete allDb[colectionId];
-		this.setDb(allDb);
-	}
-
-	public upsertMovie(movie: IMovie, colectionId: string): void
-	{
-		const db = this.getDb();
-		const colection: IColection = db[colectionId];
-		if (colection && colection.movies && !colection.movies.find(x => x.Id === movie.Id))
+		try
 		{
-			colection.movies.push(movie);
+			this.storage.deleteCol(colectionId);
+			// this.store.remove(colectionId);
+		} catch (e)
+		{
+			console.warn('Failed to delete colection ', e);
 		}
-		db[colectionId] = colection;
-		this.setDb(db);
 	}
 
+	public upsertOrUpdateMovie(movie: IMovie, colectionId: string): void
+	{
+		try
+		{
+			this.storage.upsertOrUpdateMovie(movie, colectionId);
+		} catch (e)
+		{
+			console.warn('Failed to upsert or update movie ', e);
+		}
+	}
+
+	public removeMovie(colectionId: string, movieId: string)
+	{
+		try
+		{
+			this.storage.removeMovie(colectionId, movieId);
+		} catch (e)
+		{
+			console.warn('Failed to remove movie ', e);
+		}
+	}
 	public Search(term: string): void
 	{
 		this.api.Search(term).subscribe(result => this.currentSearch.next(result));
-	}
-
-	private getDb(): {}
-	{
-		return this.storage.getLocalStorageObject();
-	}
-
-	private setDb(db: {}): void
-	{
-		this.storage.setLocalStorageObject(db);
-		this.loadAll();
 	}
 }

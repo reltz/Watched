@@ -1,6 +1,14 @@
 <div class="wrapper">
 	<table mat-table [dataSource]="DataSource">
 
+		<!-- Poster column-->
+		<ng-container matColumnDef="Poster">
+			<th mat-header-cell *matHeaderCellDef>Poster</th>
+			<td mat-cell *matCellDef="let movie">
+				<img src={{movie.PosterUrl}} class="poster" />
+			</td>
+		</ng-container>
+
 		<!-- Title column-->
 		<ng-container matColumnDef="Title">
 			<th mat-header-cell *matHeaderCellDef>Title</th>
@@ -11,7 +19,7 @@
 
 		<!-- Year column -->
 		<ng-container matColumnDef="Year">
-			<th mat-header-cell *matHeaderCellDef>Year</th>
+			<th class="small-col" mat-header-cell *matHeaderCellDef>Year</th>
 			<td mat-cell *matCellDef="let movie">
 				<p>{{movie.Year}}</p>
 			</td>
@@ -19,7 +27,7 @@
 
 		<!-- Type column -->
 		<ng-container matColumnDef="Type">
-			<th mat-header-cell *matHeaderCellDef>Type</th>
+			<th class="small-col" mat-header-cell *matHeaderCellDef>Type</th>
 			<td mat-cell *matCellDef="let movie">
 				<p>{{movie.Type}}</p>
 			</td>
@@ -35,7 +43,7 @@
 
 		<!-- Runtime column -->
 		<ng-container matColumnDef="Runtime">
-			<th mat-header-cell *matHeaderCellDef>Runtime</th>
+			<th class="small-col" mat-header-cell *matHeaderCellDef>Runtime</th>
 			<td mat-cell *matCellDef="let movie">
 				<p>{{movie.Runtime}}</p>
 			</td>
@@ -46,6 +54,62 @@
 			<th mat-header-cell *matHeaderCellDef>Genres</th>
 			<td mat-cell *matCellDef="let movie">
 				<p>{{movie.Genres}}</p>
+			</td>
+		</ng-container>
+
+		<!-- Actors column -->
+		<ng-container matColumnDef="Actors">
+			<th mat-header-cell *matHeaderCellDef>Cast</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.Actors}}</p>
+			</td>
+		</ng-container>
+
+		<!-- Personal notes -->
+		<ng-container matColumnDef="Notes">
+			<th class="small-col" mat-header-cell *matHeaderCellDef>Notes </th>
+			<td mat-cell *matCellDef="let movie; let i = index">
+				<textarea rows="10" [formControl]="formArray.controls[i].controls.userNotes"></textarea>
+			</td>
+		</ng-container>
+
+		<!-- IMDB Rating -->
+		<ng-container matColumnDef="IMDBRating">
+			<th class="small-col" mat-header-cell *matHeaderCellDef>IMDB</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.IMDBRating}}</p>
+			</td>
+		</ng-container>
+
+
+		<!-- Rotten tomatoes Ratings -->
+
+		<ng-container matColumnDef="RTRating">
+			<th class="small-col" mat-header-cell *matHeaderCellDef>Rotten Tomatoes</th>
+			<td mat-cell *matCellDef="let movie">
+				<p>{{movie.RottenTomatoesRating}}</p>
+			</td>
+		</ng-container>
+
+		<!-- User ratings - editable -->
+		<ng-container matColumnDef="UserRating">
+			<th class="small-col" mat-header-cell *matHeaderCellDef>User</th>
+			<td mat-cell *matCellDef="let movie; let i = index">
+				<input mat-input [formControl]="formArray.controls[i].controls.userRating">
+			</td>
+		</ng-container>
+
+
+		<!-- Actiosn column -->
+		<ng-container matColumnDef="Actions">
+			<th class="small-col" mat-header-cell *matHeaderCellDef>User</th>
+			<td mat-cell *matCellDef="let movie; let i = index">
+
+				<div class="flex">
+					<button mat-flat-button (click)="removeMovie(formArray.controls[i].controls.id.value)">
+						<mat-icon>delete</mat-icon>
+					</button>
+				</div>
 			</td>
 		</ng-container>
 
