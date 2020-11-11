@@ -11,7 +11,7 @@ import { LocalStorageAdapterService } from './local-storage-adapter.service';
 export class ApiAdapterService
 {
 	private apiKey: string = 'apikey=4ed90b3e';
-	private url: string = 'http://www.omdbapi.com';
+	private url: string = 'https://www.omdbapi.com';
 
 	constructor(
 		private http: HttpClient,
