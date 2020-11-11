@@ -25,7 +25,6 @@ export class ColectionPageComponent implements OnInit, OnDestroy
 
 	public ngOnInit(): void
 	{
-		console.warn(this.query.getActive());
 		this.query.selectAll().pipe(
 			takeWhile(() => this.isAlive),
 		)

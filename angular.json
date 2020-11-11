@@ -3,7 +3,7 @@
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
-		"SeriesMovies": {
+		"Watched": {
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
@@ -66,18 +66,18 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
-						"browserTarget": "SeriesMovies:build"
+						"browserTarget": "Watched:build"
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "SeriesMovies:build:production"
+							"browserTarget": "Watched:build:production"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "SeriesMovies:build"
+						"browserTarget": "Watched:build"
 					}
 				},
 				"test": {
@@ -114,18 +114,18 @@
 					"builder": "@angular-devkit/build-angular:protractor",
 					"options": {
 						"protractorConfig": "e2e/protractor.conf.js",
-						"devServerTarget": "SeriesMovies:serve"
+						"devServerTarget": "Watched:serve"
 					},
 					"configurations": {
 						"production": {
-							"devServerTarget": "SeriesMovies:serve:production"
+							"devServerTarget": "Watched:serve:production"
 						}
 					}
 				}
 			}
 		}
 	},
-	"defaultProject": "SeriesMovies",
+	"defaultProject": "Watched",
 	"cli": {
 		"defaultCollection": "@datorama/akita"
 	}

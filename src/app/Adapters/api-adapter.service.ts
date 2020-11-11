@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { IMovie, IMovieFromApi, ISearchResult } from '../Models/ApiModels';
 import { LocalStorageAdapterService } from './local-storage-adapter.service';
 
@@ -31,7 +31,6 @@ export class ApiAdapterService
 		return this.http.get<IMovieFromApi>(completeUrl, { responseType: "json" })
 			.pipe(
 				map(response => this.mapToMovie(response)),
-				tap(x => console.info('mapped is ', x)),
 			);
 
 	}
