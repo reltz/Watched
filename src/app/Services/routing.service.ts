@@ -17,4 +17,9 @@ export class RoutingService
 		this.svc.setActiveColection(id);
 		this.router.navigateByUrl(`colection/{{id}}`);
 	}
+
+	public navigateColectionHome()
+	{
+		this.router.navigateByUrl(`colections`);
+	}
 }

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiAdapterService } from '../Adapters/api-adapter.service';
 import { LocalStorageAdapterService } from '../Adapters/local-storage-adapter.service';
 import { IColection, IMovie, ISearchResult } from '../Models/ApiModels';
 import { WatchedStore } from '../State/WatchedStore';
+import { RoutingService } from './routing.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -17,6 +19,7 @@ export class MainService
 		private api: ApiAdapterService,
 		private store: WatchedStore,
 		private storage: LocalStorageAdapterService,
+		private router: Router,
 	)
 	{
 		this.currentSearchResult$ = this.currentSearch.asObservable();
@@ -43,6 +46,7 @@ export class MainService
 		{
 			this.storage.upsert(colection);
 			this.setActiveColection(colection.id);
+			this.router.navigateByUrl(`colection/{{colection.id}}`);
 		} catch (e)
 		{
 			console.warn('Failed to create colection ', e);
@@ -65,7 +69,7 @@ export class MainService
 		try
 		{
 			this.storage.deleteCol(colectionId);
-			// this.store.remove(colectionId);
+			this.router.navigateByUrl(`colections`);
 		} catch (e)
 		{
 			console.warn('Failed to delete colection ', e);

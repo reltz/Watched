@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { filter, takeWhile } from 'rxjs/operators';
 import { IColection } from 'src/app/Models/ApiModels';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
 import { ColectionTableComponent } from '../colection-table/colection-table.component';
+import { ConfirmDeleteColectionComponent } from '../confirm-delete-colection/confirm-delete-colection.component';
 
 @Component({
 	selector: 'app-colection-landing',
@@ -19,6 +21,7 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 	constructor(
 		private query: WatchedQuery,
 		private svc: MainService,
+		private dialog: MatDialog,
 	) { }
 
 	public ngOnInit(): void
@@ -40,6 +43,12 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 		{
 			console.info('failed to save table');
 		}
+	}
+
+	public delete()
+	{
+		this.dialog.open(ConfirmDeleteColectionComponent, { data: { name: this.colection.name, id: this.colection.id } })
+			.afterClosed();
 	}
 
 	public ngOnDestroy(): void

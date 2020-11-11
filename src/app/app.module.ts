@@ -32,6 +32,7 @@ import { MainService } from './Services/main.service';
 import { RoutingService } from './Services/routing.service';
 import { WatchedQuery } from './State/WatchedQuery';
 import { WatchedStore } from './State/WatchedStore';
+import { ConfirmDeleteColectionComponent } from './Pages/Colection/confirm-delete-colection/confirm-delete-colection.component';
 
 const MatModules = [
 	MatCardModule,
@@ -60,6 +61,7 @@ const MatModules = [
 		ColectionLandingComponent,
 		CreateColectionDialogComponent,
 		AddToColectionDialogComponent,
+		ConfirmDeleteColectionComponent,
 	],
 	imports: [
 		BrowserModule,

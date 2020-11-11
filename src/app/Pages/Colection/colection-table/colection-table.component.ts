@@ -6,16 +6,6 @@ import { IColection, IMovie } from 'src/app/Models/ApiModels';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
 
-// export interface IColectionTableRow
-// {
-// 	Title: string;
-// 	Type: string;
-// 	Year: string;
-// 	RunTime: string;
-// 	Genres: string;
-// 	Director: string;
-// }
-
 @Component({
 	selector: 'app-colection-table',
 	templateUrl: './colection-table.component.html',

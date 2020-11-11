@@ -54,6 +54,7 @@ export class LocalStorageAdapterService
 	public deleteCol(colectionId: string)
 	{
 		const db = this.getLocalStorageObject();
+		this.store.remove(colectionId);
 		delete db[colectionId];
 		this.setLocalStorageObject(db);
 	}
