@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Restore</h1>
+
+<div mat-dialog-content>
+	<div>
+		You can upload a backup file to restore your colections.
+		<strong>This will replace your current data with the backup data</strong>
+	</div>
+
+	<div class="file-input">
+		<input mat-button type="file" (change)="loadFile($event.target.files)">
+	</div>
+
+</div>
+
+<div mat-dialog-actions>
+	<button mat-raised-button
+			[disabled]="!fileContent"
+			(click)="restore()">Restore</button>
+
+	<button mat-flat-button
+			[mat-dialog-close]="false">Cancel</button>
+</div>

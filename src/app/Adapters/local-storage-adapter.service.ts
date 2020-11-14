@@ -91,6 +91,12 @@ export class LocalStorageAdapterService
 		}
 	}
 
+	public restoreData(data: string): void
+	{
+		localStorage.setItem(this.localDBName, data);
+		this.loadAll();
+	}
+
 	/* Private helpers */
 
 	private getLocalStorageObject()

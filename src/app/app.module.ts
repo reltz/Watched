@@ -15,6 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { BackupRestoreService } from '../app/Services/backup-restore.service';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +35,7 @@ import { MainService } from './Services/main.service';
 import { RoutingService } from './Services/routing.service';
 import { WatchedQuery } from './State/WatchedQuery';
 import { WatchedStore } from './State/WatchedStore';
+import { RestoreDialogComponent } from './Pages/restore-dialog/restore-dialog.component';
 
 const MatModules = [
 	MatCardModule,
@@ -64,6 +66,7 @@ const MatModules = [
 		CreateColectionDialogComponent,
 		AddToColectionDialogComponent,
 		ConfirmDeleteColectionComponent,
+		RestoreDialogComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -79,6 +82,7 @@ const MatModules = [
 		WatchedStore,
 		MainService,
 		RoutingService,
+		BackupRestoreService,
 	],
 	bootstrap: [AppComponent],
 })
