@@ -1,9 +1,19 @@
 <div class="page">
-	<h1>{{colection.name}}</h1>
-	<div class="flex">
-		<button mat-raised-button (click)="save()">Save Changes <mat-icon>save</mat-icon></button>
-		<button mat-flat-button class="align-right" (click)="delete()">Delete Colection</button>
+	<h1 class="white">{{colection.name}}</h1>
+	<div *ngIf="colection.movies.length > 0; else emptyState">
+		<div class="flex">
+			<button mat-raised-button (click)="save()">Save Changes <mat-icon>save</mat-icon></button>
+			<button mat-flat-button class="align-right" (click)="delete()">Delete Colection</button>
+		</div>
+		<app-colection-table *ngIf="colection.movies.length > 0; else emptyState" [colection]="colection"></app-colection-table>
 	</div>
-	<app-colection-table [colection]="colection"></app-colection-table>
 
+
+	<ng-template #emptyState>
+		<div class="empty-warning">
+			<h3 class="white">You dont have any movies or series in this colection yet.</h3>
+			<h3 class="white">Go to the search page to search and add items do this colection</h3>
+		</div>
+		<button mat-flat-button class="align-right" (click)="delete()">Delete Colection</button>
+	</ng-template>
 </div>

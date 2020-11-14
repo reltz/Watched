@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -21,6 +22,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
 import { ColectionLandingComponent } from './Pages/Colection/colection-landing/colection-landing.component';
 import { ColectionPageComponent } from './Pages/Colection/colection-page/colection-page.component';
 import { ColectionTableComponent } from './Pages/Colection/colection-table/colection-table.component';
+import { ConfirmDeleteColectionComponent } from './Pages/Colection/confirm-delete-colection/confirm-delete-colection.component';
 import { CreateColectionDialogComponent } from './Pages/Colection/create-colection-dialog/create-colection-dialog.component';
 import { MovieComponent } from './Pages/Movie/movie/movie.component';
 import { AddToColectionDialogComponent } from './Pages/Search/add-to-colection-dialog/add-to-colection-dialog.component';
@@ -32,7 +34,6 @@ import { MainService } from './Services/main.service';
 import { RoutingService } from './Services/routing.service';
 import { WatchedQuery } from './State/WatchedQuery';
 import { WatchedStore } from './State/WatchedStore';
-import { ConfirmDeleteColectionComponent } from './Pages/Colection/confirm-delete-colection/confirm-delete-colection.component';
 
 const MatModules = [
 	MatCardModule,
@@ -45,6 +46,7 @@ const MatModules = [
 	MatDialogModule,
 	MatSelectModule,
 	MatTableModule,
+	MatDividerModule,
 ];
 
 @NgModule({

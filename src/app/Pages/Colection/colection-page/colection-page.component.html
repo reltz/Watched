@@ -1,17 +1,37 @@
 <div class="page">
-	<h1>Colections</h1>
 
-	<div class=colection-list *ngIf="!isEmpty; else emptyState">
-		<div *ngFor="let col of existingColections">
-			<button mat-button (click)="navigate(col.id)">{{col.name}}</button>
-		</div>
-	</div>
+	<mat-card>
+		<mat-card-title>
+			<h2>Disclaimer</h2>
+		</mat-card-title>
+		<mat-card-content>
+			<p>
+				This app is in development.
+			</p>
+			<p>
+				To add movies / series to a colection, go to the search page, search for the name of the movie / series and select "add to colection"
+			</p>
+		</mat-card-content>
+	</mat-card>
 
 	<ng-template #emptyState>
 		<div class="empty-warning">
-			<h3>You dont have any colections yet.</h3>
+			<h3 class="white">You dont have any colections yet.</h3>
 		</div>
 	</ng-template>
+	<mat-divider></mat-divider>
+	<button class="create-button" mat-raised-button (click)="createColection()">Create Colection</button>
 
-	<button mat-raised-button (click)="createColection()">Create Colection</button>
+	<div *ngIf="!isEmpty; else emptyState">
+		<h2 class="my-colections">My colections</h2>
+		<div class="colection-list">
+			<div *ngFor="let col of existingColections">
+				<button mat-flat-button (click)="navigate(col.id)">
+					<mat-icon>local_movies</mat-icon>
+					{{col.name}}
+				</button>
+			</div>
+		</div>
+	</div>
+
 </div>

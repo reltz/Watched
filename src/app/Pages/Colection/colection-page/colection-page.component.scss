@@ -3,13 +3,30 @@
 }
 
 .colection-list {
-	margin-top: 30px;
+	display: flex;
 	button {
-		color: white;
+		width: 250px;
+		margin: 20px;
 	}
+}
+
+.white {
+	color: white;
 }
 
 .empty-warning {
 	margin-top: 30px;
 	color: white;
+}
+
+.create-button {
+	margin-top: 20px;
+}
+
+.my-colections {
+	color: white;
+	margin-top: 20px;
+}
+.mat-divider {
+	margin-top: 20px;
 }
