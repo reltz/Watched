@@ -1,5 +1,7 @@
 <div class="page">
-	<h1 class="white">{{colection.name}}</h1>
+	<mat-form-field>
+		<input class="title" matInput [formControl]="colectionNameControl" />
+	</mat-form-field>
 	<div *ngIf="colection.movies.length > 0; else emptyState">
 		<div class="flex">
 			<button mat-raised-button (click)="save()">Save Changes <mat-icon>save</mat-icon></button>

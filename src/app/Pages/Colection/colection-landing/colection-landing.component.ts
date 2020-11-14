@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, takeWhile } from 'rxjs/operators';
 import { IColection } from 'src/app/Models/ApiModels';
@@ -17,6 +18,7 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 	@ViewChild(ColectionTableComponent) public colTable: ColectionTableComponent;
 	public colection: IColection;
 	public isAlive = true;
+	public colectionNameControl: FormControl;
 
 	constructor(
 		private query: WatchedQuery,
@@ -30,6 +32,8 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 			filter(x => !!x),
 			takeWhile(() => this.isAlive),
 		).subscribe(col => this.colection = col);
+
+		this.colectionNameControl = new FormControl(this.colection.name, Validators.required);
 	}
 
 	public save()
@@ -37,7 +41,8 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 		try
 		{
 			const colect: IColection = this.colTable.getUpdatedColection();
-			this.svc.update(this.colTable.getUpdatedColection());
+			colect.name = this.colectionNameControl.value;
+			this.svc.update(colect);
 			alert('Saved !');
 		} catch (e)
 		{
