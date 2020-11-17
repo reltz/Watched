@@ -10,12 +10,6 @@ const routes: Routes = [
 	{ path: 'colections', component: ColectionPageComponent },
 	{
 		path: 'colection', component: ColectionLandingComponent,
-		children: [
-			{
-				path: ':id',
-				component: ColectionTableComponent,
-			},
-		],
 	},
 ];
 
