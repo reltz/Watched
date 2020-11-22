@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Import colection</h1>
+
+<div mat-dialog-content>
+	<div>
+		Import a colection from file
+	</div>
+
+	<div class="file-input">
+		<input mat-button type="file" (change)="loadFile($event.target.files)">
+	</div>
+
+</div>
+
+<div mat-dialog-actions>
+	<button mat-raised-button
+			[disabled]="!fileContent"
+			(click)="import()">Import</button>
+
+	<button mat-flat-button
+			[mat-dialog-close]="false">Cancel</button>
+</div>

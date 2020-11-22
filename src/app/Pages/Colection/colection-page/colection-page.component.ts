@@ -5,6 +5,7 @@ import { IColection } from 'src/app/Models/ApiModels';
 import { RoutingService } from 'src/app/Services/routing.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
 import { CreateColectionDialogComponent } from '../create-colection-dialog/create-colection-dialog.component';
+import { ImportColectionDialogComponent } from '../import-colection-dialog/import-colection-dialog.component';
 
 @Component({
 	selector: 'app-colection-page',
@@ -43,6 +44,12 @@ export class ColectionPageComponent implements OnInit, OnDestroy
 	public createColection()
 	{
 		this.dialog.open(CreateColectionDialogComponent)
+			.afterClosed();
+	}
+
+	public importColection()
+	{
+		this.dialog.open(ImportColectionDialogComponent)
 			.afterClosed();
 	}
 

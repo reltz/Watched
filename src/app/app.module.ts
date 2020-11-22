@@ -25,6 +25,7 @@ import { ColectionPageComponent } from './Pages/Colection/colection-page/colecti
 import { ColectionTableComponent } from './Pages/Colection/colection-table/colection-table.component';
 import { ConfirmDeleteColectionComponent } from './Pages/Colection/confirm-delete-colection/confirm-delete-colection.component';
 import { CreateColectionDialogComponent } from './Pages/Colection/create-colection-dialog/create-colection-dialog.component';
+import { ImportColectionDialogComponent } from './Pages/Colection/import-colection-dialog/import-colection-dialog.component';
 import { MovieComponent } from './Pages/Movie/movie/movie.component';
 import { RestoreDialogComponent } from './Pages/restore-dialog/restore-dialog.component';
 import { AddToColectionDialogComponent } from './Pages/Search/add-to-colection-dialog/add-to-colection-dialog.component';
@@ -69,6 +70,7 @@ const MatModules = [
 		AddToColectionDialogComponent,
 		ConfirmDeleteColectionComponent,
 		RestoreDialogComponent,
+		ImportColectionDialogComponent,
 	],
 	imports: [
 		BrowserModule,

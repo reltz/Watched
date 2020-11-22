@@ -28,8 +28,11 @@
 		</div>
 	</ng-template>
 	<mat-divider></mat-divider>
-	<button class="create-button" mat-raised-button (click)="createColection()">Create Colection</button>
-
+	<button class="create-button" mat-raised-button (click)="createColection()">
+		<mat-icon>add</mat-icon>
+		Create Colection
+	</button>
+	<button mat-flat-button class="import-button" (click)="importColection()">Import colection from file</button>
 	<div *ngIf="!isEmpty; else emptyState">
 		<h2 class="my-colections">My colections</h2>
 		<div class="colection-list">

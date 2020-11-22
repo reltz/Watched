@@ -33,6 +33,7 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 		this.query.selectEntity(this.colection.id)
 			.pipe(
 				takeWhile(() => this.isAlive),
+				filter(col => !!col && !!col.movies),
 				map(col => col.movies),
 			)
 			.subscribe(movies =>

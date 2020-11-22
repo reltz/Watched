@@ -46,7 +46,6 @@ export class MainService
 		{
 			this.storage.upsert(colection);
 			this.setActiveColection(colection.id);
-			this.router.navigateByUrl(`colection/{{colection.id}}`);
 		} catch (e)
 		{
 			console.warn('Failed to create colection ', e);
@@ -94,7 +93,7 @@ export class MainService
 			this.storage.removeMovie(colectionId, movieId);
 		} catch (e)
 		{
-			console.warn('Failed to remove movie ', e);
+			console.warn('Failed to remove movie ', JSON.stringify(e));
 		}
 	}
 	public Search(term: string): void

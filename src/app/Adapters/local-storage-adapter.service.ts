@@ -81,7 +81,7 @@ export class LocalStorageAdapterService
 		const db = this.getLocalStorageObject();
 		const col: IColection = db[colId];
 		const index = col.movies.findIndex(mov => mov.Id === movieId);
-		if (index)
+		if (index >= 0)
 		{
 			col.movies.splice(index, 1);
 			this.setLocalStorageObject(db);
