@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageAdapterService } from '../Adapters/local-storage-adapter.service';
+import { FileUtilsService } from './file-utils.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -10,6 +11,7 @@ export class BackupRestoreService
 	private fileIdentifier: string = 'WatchedLS';
 	constructor(
 		protected readonly adapter: LocalStorageAdapterService,
+		protected readonly fileUtils: FileUtilsService,
 	) { }
 
 	private fileUrl: any;
@@ -20,7 +22,7 @@ export class BackupRestoreService
 		const data = this.fileIdentifier + localStorage.getItem(this.localDBName);
 		const blob = new Blob([data], { type: 'text/txt' });
 
-		this.fileUrl = this.createObjectURL(blob);
+		this.fileUrl = this.fileUtils.createObjectURL(blob, this.fileUrl);
 		return this.fileUrl;
 	}
 
@@ -36,28 +38,6 @@ export class BackupRestoreService
 			const error = 'Invalid file, please upload a valid backup file';
 			console.error('Invalid file, please upload a valid backup file');
 			alert(error);
-		}
-	}
-
-	private createObjectURL(file)
-	{
-		if (webkitURL)
-		{
-			if (this.fileUrl)
-			{
-				webkitURL.revokeObjectURL(this.fileUrl);
-			}
-			return webkitURL.createObjectURL(file);
-		} else if (URL && URL.createObjectURL)
-		{
-			if (this.fileUrl)
-			{
-				URL.revokeObjectURL(this.fileUrl);
-			}
-			return URL.createObjectURL(file);
-		} else
-		{
-			return null;
 		}
 	}
 }

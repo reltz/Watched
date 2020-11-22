@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, takeWhile } from 'rxjs/operators';
 import { IColection } from 'src/app/Models/ApiModels';
+import { ExportImportService } from 'src/app/Services/export-import.service';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
 import { ColectionTableComponent } from '../colection-table/colection-table.component';
@@ -23,6 +24,7 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 	constructor(
 		private query: WatchedQuery,
 		private svc: MainService,
+		private exportImport: ExportImportService,
 		private dialog: MatDialog,
 	) { }
 
@@ -54,6 +56,11 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 	{
 		this.dialog.open(ConfirmDeleteColectionComponent, { data: { name: this.colection.name, id: this.colection.id } })
 			.afterClosed();
+	}
+
+	public export()
+	{
+		this.exportImport.exportColection(this.colection);
 	}
 
 	public ngOnDestroy(): void

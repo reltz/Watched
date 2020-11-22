@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IColection } from '../Models/ApiModels';
 import { RestoreDialogComponent } from '../Pages/restore-dialog/restore-dialog.component';
 import { BackupRestoreService } from '../Services/backup-restore.service';
+import { FileUtilsService } from '../Services/file-utils.service';
 import { RoutingService } from '../Services/routing.service';
 import { WatchedQuery } from '../State/WatchedQuery';
 
@@ -21,6 +22,7 @@ export class NavigationMenuComponent implements OnInit
 		private query: WatchedQuery,
 		private routerSvc: RoutingService,
 		private backUpRestore: BackupRestoreService,
+		private readonly fileUtils: FileUtilsService,
 		protected readonly dialog: MatDialog,
 	) { }
 
@@ -39,7 +41,7 @@ export class NavigationMenuComponent implements OnInit
 		const link = document.createElement("a");
 		link.href = this.backUpRestore.downloadBackup();
 
-		const dateTime = this.getCurrentDateTime();
+		const dateTime = this.fileUtils.getCurrentDateTime();
 
 		link.download = 'Watched-backup-' + dateTime + '.txt';
 		link.click();
@@ -49,14 +51,5 @@ export class NavigationMenuComponent implements OnInit
 	{
 		this.dialog.open(RestoreDialogComponent)
 			.afterClosed();
-	}
-
-	private getCurrentDateTime(): string
-	{
-		const today = new Date();
-		const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-		const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-		const dateTime = date + '_' + time;
-		return dateTime;
 	}
 }
