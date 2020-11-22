@@ -1,10 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { distinctUntilChanged, distinctUntilKeyChanged, filter, map, takeWhile } from 'rxjs/operators';
+import { distinctUntilChanged, distinctUntilKeyChanged, filter, map, take, takeWhile } from 'rxjs/operators';
 import { IColection, IMovie } from 'src/app/Models/ApiModels';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
+import { ConfirmDialogComponent, IDialogData } from '../confirm-delete-colection/confirm-dialog.component';
 
 @Component({
 	selector: 'app-colection-table',
@@ -23,6 +25,7 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 	constructor(
 		private query: WatchedQuery,
 		private svc: MainService,
+		private readonly dialog: MatDialog,
 	) { }
 
 	public ngOnInit(): void
@@ -63,7 +66,18 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 
 	public removeMovie(movieId)
 	{
-		this.svc.removeMovie(this.colection.id, movieId);
+		const data: IDialogData = {
+			title: 'Confirm deletion',
+			message: `Are you sure you want to remove movie from colection?`,
+			btnConfirm: 'Delete',
+		};
+		this.dialog.open(ConfirmDialogComponent, { data })
+			.afterClosed()
+			.pipe(
+				take(1),
+				filter(confirmed => !!confirmed),
+			)
+			.subscribe(() => this.svc.removeMovie(this.colection.id, movieId));
 	}
 
 	private mapToMovie(movie: IMovie): IMovie

@@ -23,7 +23,7 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
 import { ColectionLandingComponent } from './Pages/Colection/colection-landing/colection-landing.component';
 import { ColectionPageComponent } from './Pages/Colection/colection-page/colection-page.component';
 import { ColectionTableComponent } from './Pages/Colection/colection-table/colection-table.component';
-import { ConfirmDeleteColectionComponent } from './Pages/Colection/confirm-delete-colection/confirm-delete-colection.component';
+import { ConfirmDialogComponent } from './Pages/Colection/confirm-delete-colection/confirm-dialog.component';
 import { CreateColectionDialogComponent } from './Pages/Colection/create-colection-dialog/create-colection-dialog.component';
 import { ImportColectionDialogComponent } from './Pages/Colection/import-colection-dialog/import-colection-dialog.component';
 import { MovieComponent } from './Pages/Movie/movie/movie.component';
@@ -68,7 +68,7 @@ const MatModules = [
 		ColectionLandingComponent,
 		CreateColectionDialogComponent,
 		AddToColectionDialogComponent,
-		ConfirmDeleteColectionComponent,
+		ConfirmDialogComponent,
 		RestoreDialogComponent,
 		ImportColectionDialogComponent,
 	],

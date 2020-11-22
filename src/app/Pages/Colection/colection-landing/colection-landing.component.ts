@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { filter, takeWhile } from 'rxjs/operators';
+import { filter, take, takeWhile } from 'rxjs/operators';
 import { IColection } from 'src/app/Models/ApiModels';
 import { ExportImportService } from 'src/app/Services/export-import.service';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
 import { ColectionTableComponent } from '../colection-table/colection-table.component';
-import { ConfirmDeleteColectionComponent } from '../confirm-delete-colection/confirm-delete-colection.component';
+import { ConfirmDialogComponent } from '../confirm-delete-colection/confirm-dialog.component';
 
 @Component({
 	selector: 'app-colection-landing',
@@ -54,8 +54,18 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 
 	public delete()
 	{
-		this.dialog.open(ConfirmDeleteColectionComponent, { data: { name: this.colection.name, id: this.colection.id } })
-			.afterClosed();
+		const message = `Are you sure you want to delete Colection: "${this.colection.name}"? This cannot be undone.`;
+		const title = `Confirm deletion`;
+		const btnConfirm = 'Delete';
+
+		this.dialog.open(ConfirmDialogComponent, { data: { message, title, btnConfirm } })
+			.afterClosed()
+			.pipe(
+				take(1),
+				filter(confirmed => !!confirmed),
+			)
+			.subscribe(() => this.svc.delete(this.colection.id));
+
 	}
 
 	public export()
