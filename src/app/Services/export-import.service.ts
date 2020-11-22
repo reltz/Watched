@@ -54,11 +54,13 @@ export class ExportImportService
 				if (allIds.includes(colection.id))
 				{
 					confirmImport = confirm('This colection already exist, do you wish to overwrite it?');
+					if (confirmImport) { this.mainSvc.upsert(colection); }
 				}
-				if (confirmImport)
+				else
 				{
 					this.mainSvc.upsert(colection);
 				}
+
 			} catch (e)
 			{
 				console.warn('Error: ', JSON.stringify(e));
