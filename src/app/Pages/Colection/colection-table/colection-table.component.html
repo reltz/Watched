@@ -93,7 +93,7 @@
 
 		<!-- User ratings - editable -->
 		<ng-container matColumnDef="UserRating">
-			<th class="small-col" mat-header-cell *matHeaderCellDef>User</th>
+			<th class="small-col" mat-header-cell *matHeaderCellDef>User rating</th>
 			<td mat-cell *matCellDef="let movie; let i = index">
 				<input mat-input [formControl]="formArray.controls[i].controls.userRating">
 			</td>
