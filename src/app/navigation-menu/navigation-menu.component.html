@@ -1,11 +1,13 @@
 <mat-toolbar>
 	<mat-toolbar-row>
-		<mat-icon>movie</mat-icon>
-		<h1> {{title}} </h1>
+		<a class="home-button" routerLink="colections">
+			<mat-icon>movie</mat-icon>
+			<h1> {{title}} </h1>
+		</a>
 		<div class="nav-menu">
 			<div>
 				<button class="nav-item" mat-button routerLink='search'>Search</button>
-				<button class="nav-item" [matMenuTriggerFor]="appMenu" mat-button routerLink="colections">Colections</button>
+				<button class="nav-item" [matMenuTriggerFor]="appMenu" mat-button>Colections</button>
 				<mat-menu #appMenu="matMenu">
 					<button mat-menu-item *ngFor="let col of (colections$ | async)"
 							(click)="navigateToColection(col.id)">{{col.name}}</button>
