@@ -63,7 +63,7 @@ export class ApiAdapterService
 				PosterUrl: apiMovie.Poster,
 				RottenTomatoesRating: apiMovie.Ratings.length > 1 ? Number((apiMovie.Ratings[1].Value).replace('%', '')) : undefined,
 				IMDBRating: apiMovie.Ratings.length > 1 ? Number.parseFloat(apiMovie.Ratings[0].Value) * 10 : undefined,
-				UserRating: 0,
+				UserRating: undefined,
 				UserNotes: '',
 			};
 		}

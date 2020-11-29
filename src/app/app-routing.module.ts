@@ -7,9 +7,8 @@ import { SearchPageComponent } from './Pages/Search/search-page/search-page.comp
 const routes: Routes = [
 	{ path: 'search', component: SearchPageComponent },
 	{ path: 'colections', component: ColectionPageComponent },
-	{
-		path: 'colection', component: ColectionLandingComponent,
-	},
+	{ path: 'colection', component: ColectionLandingComponent },
+	{ path: 'colection/:id', component: ColectionLandingComponent },
 ];
 
 @NgModule({

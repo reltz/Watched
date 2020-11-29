@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { filter, take, takeWhile } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { filter, map, switchMap, take, takeWhile, tap } from 'rxjs/operators';
 import { IColection } from 'src/app/Models/ApiModels';
 import { ExportImportService } from 'src/app/Services/export-import.service';
 import { MainService } from 'src/app/Services/main.service';
@@ -26,14 +27,22 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 		private svc: MainService,
 		private exportImport: ExportImportService,
 		private dialog: MatDialog,
+		private route: ActivatedRoute,
 	) { }
 
 	public ngOnInit(): void
 	{
-		this.query.selectActive().pipe(
-			filter(x => !!x),
+		this.colectionNameControl = new FormControl('', Validators.required);
+		this.route.params.pipe(
+			map(params => params['id']),
 			takeWhile(() => this.isAlive),
-		).subscribe(col => this.colection = col);
+			switchMap(id => this.query.selectEntity(id)),
+			filter(x => !!x),
+		).subscribe(col =>
+		{
+			this.colection = col;
+			this.colectionNameControl.setValue(col.name);
+		});
 
 		this.colectionNameControl = new FormControl(this.colection.name, Validators.required);
 	}

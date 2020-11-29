@@ -8,7 +8,7 @@
 			<button mat-flat-button (click)="export()">Export colection</button>
 			<button mat-flat-button class="align-right" (click)="delete()">Delete Colection</button>
 		</div>
-		<app-colection-table *ngIf="colection.movies.length > 0; else emptyState" [colection]="colection"></app-colection-table>
+		<app-colection-table *ngIf="colection.movies.length > 0; else emptyState"></app-colection-table>
 	</div>
 
 

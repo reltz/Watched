@@ -2,7 +2,8 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { distinctUntilChanged, distinctUntilKeyChanged, filter, map, take, takeWhile } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { distinctUntilChanged, distinctUntilKeyChanged, filter, map, switchMap, take, takeWhile } from 'rxjs/operators';
 import { IColection, IMovie } from 'src/app/Models/ApiModels';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
@@ -15,7 +16,7 @@ import { ConfirmDialogComponent, IDialogData } from '../confirm-delete-colection
 })
 export class ColectionTableComponent implements OnInit, OnDestroy
 {
-	@Input() public colection: IColection;
+	public colection: IColection;
 	public DataSource: MatTableDataSource<IMovie>;
 	public formArray: FormArray;
 	public userEditedGroup: FormGroup;
@@ -25,6 +26,7 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 	constructor(
 		private query: WatchedQuery,
 		private svc: MainService,
+		private router: ActivatedRoute,
 		private readonly dialog: MatDialog,
 	) { }
 
@@ -33,20 +35,20 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 		this.formArray = new FormArray([]);
 
 		this.DataSource = new MatTableDataSource<IMovie>();
-		this.query.selectEntity(this.colection.id)
-			.pipe(
-				takeWhile(() => this.isAlive),
-				filter(col => !!col && !!col.movies),
-				map(col => col.movies),
-			)
-			.subscribe(movies =>
+		this.router.params.pipe(
+			takeWhile(() => this.isAlive),
+			map(params => params['id']),
+			switchMap(id => this.query.selectEntity(id)),
+			filter(col => !!col && !!col.movies),
+			map(col => col.movies),
+		).subscribe(movies =>
+		{
+			this.DataSource.data = movies;
+			movies.forEach(each =>
 			{
-				this.DataSource.data = movies;
-				movies.forEach(each =>
-				{
-					this.formArray.push(this.createFormGroup(each));
-				});
+				this.formArray.push(this.createFormGroup(each));
 			});
+		});
 	}
 
 	public getUpdatedColection(): IColection

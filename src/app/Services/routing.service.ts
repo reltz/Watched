@@ -15,7 +15,7 @@ export class RoutingService
 	public navigateColection(id: string)
 	{
 		this.svc.setActiveColection(id);
-		this.router.navigateByUrl(`colection`);
+		this.router.navigateByUrl(`colection/${id}`);
 	}
 
 	public navigateColectionHome()
