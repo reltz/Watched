@@ -103,6 +103,12 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 			).subscribe(() => this.removeMovie(movie.Id, true));
 	}
 
+	public cloneMovieTo(movie: IMovie)
+	{
+		this.dialog.open(AddToColectionDialogComponent, { data: { title: 'Copy item to collection', movie } })
+			.afterClosed();
+	}
+
 	private mapToMovie(movie: IMovie): IMovie
 	{
 		const movieToSave: IMovie = Object.assign({}, movie);
