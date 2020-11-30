@@ -3,10 +3,11 @@ import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { distinctUntilChanged, distinctUntilKeyChanged, filter, map, switchMap, take, takeWhile } from 'rxjs/operators';
+import { distinctUntilChanged, distinctUntilKeyChanged, filter, map, switchMap, take, takeWhile, tap } from 'rxjs/operators';
 import { IColection, IMovie } from 'src/app/Models/ApiModels';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
+import { AddToColectionDialogComponent } from '../../Search/add-to-colection-dialog/add-to-colection-dialog.component';
 import { ConfirmDialogComponent, IDialogData } from '../confirm-delete-colection/confirm-dialog.component';
 
 @Component({
@@ -40,6 +41,7 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 			map(params => params['id']),
 			switchMap(id => this.query.selectEntity(id)),
 			filter(col => !!col && !!col.movies),
+			tap(col => this.colection = col),
 			map(col => col.movies),
 		).subscribe(movies =>
 		{
@@ -66,20 +68,39 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 		this.isAlive = false;
 	}
 
-	public removeMovie(movieId)
+	public removeMovie(movieId, byPassConfirmation = false)
 	{
 		const data: IDialogData = {
 			title: 'Confirm deletion',
 			message: `Are you sure you want to remove movie from colection?`,
 			btnConfirm: 'Delete',
 		};
-		this.dialog.open(ConfirmDialogComponent, { data })
+
+		if (!byPassConfirmation)
+		{
+			this.dialog.open(ConfirmDialogComponent, { data })
+				.afterClosed()
+				.pipe(
+					take(1),
+					filter(confirmed => !!confirmed),
+				)
+				.subscribe(() => this.svc.removeMovie(this.colection.id, movieId));
+
+		}
+		else
+		{
+			this.svc.removeMovie(this.colection.id, movieId);
+		}
+
+	}
+
+	public moveMovieTo(movie: IMovie)
+	{
+		this.dialog.open(AddToColectionDialogComponent, { data: { movie, title: 'Move to Collection' } })
 			.afterClosed()
 			.pipe(
 				take(1),
-				filter(confirmed => !!confirmed),
-			)
-			.subscribe(() => this.svc.removeMovie(this.colection.id, movieId));
+			).subscribe(() => this.removeMovie(movie.Id, true));
 	}
 
 	private mapToMovie(movie: IMovie): IMovie

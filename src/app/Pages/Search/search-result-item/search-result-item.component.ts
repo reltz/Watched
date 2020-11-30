@@ -24,7 +24,7 @@ export class SearchResultItemComponent implements OnInit
 	public openDialog()
 	{
 		this.dialog.open(
-			AddToColectionDialogComponent, { data: this.resultItem.imdbID },
+			AddToColectionDialogComponent, { data: { id: this.resultItem.imdbID } },
 		).afterClosed();
 	}
 }

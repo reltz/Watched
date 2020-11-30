@@ -37,3 +37,7 @@ button {
 textarea {
 	font-family: 'Roboto', Courier, monospace;
 }
+
+::ng-deep .mat-menu-panel {
+	overflow: hidden;
+}

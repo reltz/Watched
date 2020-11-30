@@ -8,6 +8,13 @@ import { IColection, IMovie } from 'src/app/Models/ApiModels';
 import { MainService } from 'src/app/Services/main.service';
 import { WatchedQuery } from 'src/app/State/WatchedQuery';
 
+export interface IAddToDialogData
+{
+	id?: string;
+	movie?: IMovie;
+	title?: string;
+}
+
 @Component({
 	selector: 'app-add-to-colection-dialog',
 	templateUrl: './add-to-colection-dialog.component.html',
@@ -19,7 +26,7 @@ export class AddToColectionDialogComponent implements OnInit
 	public colectionIdControl: FormControl;
 
 	constructor(
-		@Inject(MAT_DIALOG_DATA) public movieId: string,
+		@Inject(MAT_DIALOG_DATA) public data: IAddToDialogData,
 		private readonly svc: MainService,
 		private readonly api: ApiAdapterService,
 		private readonly query: WatchedQuery,
@@ -28,19 +35,29 @@ export class AddToColectionDialogComponent implements OnInit
 
 	public ngOnInit(): void
 	{
+		if (!this.data.title) { this.data.title = 'Add to Collection'; }
 		this.colectionIdControl = new FormControl('', Validators.required);
 		this.colections$ = this.query.selectAll();
 	}
 
 	public addMovieToColection()
 	{
-		this.api.GetMovie(this.movieId)
-			.pipe(
-			)
-			.subscribe(mov =>
-			{
-				this.svc.upsertOrUpdateMovie(mov, this.colectionIdControl.value);
-				this.dialogRef.close(true);
-			});
+		if (this.data.movie)
+		{
+			this.svc.upsertOrUpdateMovie(this.data.movie, this.colectionIdControl.value);
+			this.dialogRef.close(true);
+		}
+		else
+		{
+			this.api.GetMovie(this.data.id)
+				.pipe(
+				)
+				.subscribe(mov =>
+				{
+					this.svc.upsertOrUpdateMovie(mov, this.colectionIdControl.value);
+					this.dialogRef.close(true);
+				});
+		}
+
 	}
 }

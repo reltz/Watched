@@ -100,15 +100,27 @@
 		</ng-container>
 
 
-		<!-- Actiosn column -->
+		<!-- Actions column -->
 		<ng-container matColumnDef="Actions">
 			<th class="small-col" mat-header-cell *matHeaderCellDef>Actions</th>
 			<td mat-cell *matCellDef="let movie; let i = index">
+				<button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+				<mat-menu #actionsMenu="matMenu">
+					<button mat-menu-item (click)="removeMovie(formArray.controls[i].controls.id.value)">
+						Delete
+					</button>
+					<button mat-menu-item (click)="moveMovieTo(movie)">
+						Move to
+					</button>
+					<button mat-menu-item>
+						Copy to
+					</button>
+				</mat-menu>
 
 				<div class="flex">
-					<button mat-flat-button (click)="removeMovie(formArray.controls[i].controls.id.value)">
-						<mat-icon>delete</mat-icon>
-					</button>
+
 				</div>
 			</td>
 		</ng-container>
