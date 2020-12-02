@@ -100,6 +100,7 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 			.afterClosed()
 			.pipe(
 				take(1),
+				filter(confirmed => !!confirmed),
 			).subscribe(() => this.removeMovie(movie.Id, true));
 	}
 
