@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { IColection, IMovie } from '../Models/ApiModels';
 import { WatchedStore } from '../State/WatchedStore';
+import { BaseAdapterService } from './base-adapter';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class LocalStorageAdapterService
+export class LocalStorageAdapterService extends BaseAdapterService
 {
 	private readonly localDBName: string = 'WatchedLS';
 
@@ -13,7 +14,7 @@ export class LocalStorageAdapterService
 		private store: WatchedStore,
 	)
 	{
-
+		super();
 	}
 
 	public init()
