@@ -5,6 +5,7 @@ import { IColection } from '../Models/ApiModels';
 import { RestoreDialogComponent } from '../Pages/restore-dialog/restore-dialog.component';
 import { BackupRestoreService } from '../Services/backup-restore.service';
 import { FileUtilsService } from '../Services/file-utils.service';
+import { FirebaseAuthService } from '../Services/firebase-auth.service';
 import { RoutingService } from '../Services/routing.service';
 import { WatchedQuery } from '../State/WatchedQuery';
 
@@ -16,12 +17,14 @@ import { WatchedQuery } from '../State/WatchedQuery';
 export class NavigationMenuComponent implements OnInit
 {
 	@Input() public title: string;
+	@Input() public enabled: boolean;
 	public colections$: Observable<IColection[]>;
 
 	constructor(
 		private query: WatchedQuery,
 		private routerSvc: RoutingService,
 		private backUpRestore: BackupRestoreService,
+		private authService: FirebaseAuthService,
 		private readonly fileUtils: FileUtilsService,
 		protected readonly dialog: MatDialog,
 	) { }
@@ -51,5 +54,10 @@ export class NavigationMenuComponent implements OnInit
 	{
 		this.dialog.open(RestoreDialogComponent)
 			.afterClosed();
+	}
+
+	public handleLogout()
+	{
+		this.authService.afAuth.signOut();
 	}
 }

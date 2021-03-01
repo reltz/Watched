@@ -6,21 +6,24 @@
 		</a>
 		<div class="nav-menu">
 			<div>
-				<button class="nav-item" mat-button routerLink='search'>Search</button>
-				<button class="nav-item" [matMenuTriggerFor]="appMenu" mat-button>Colections</button>
+				<button class="nav-item" mat-button routerLink='search' [disabled]="!enabled">Search</button>
+				<button class="nav-item" [matMenuTriggerFor]="appMenu" mat-button [disabled]="!enabled">Colections</button>
 				<mat-menu #appMenu="matMenu">
 					<button mat-menu-item *ngFor="let col of (colections$ | async)"
-							(click)="navigateToColection(col.id)">{{col.name}}</button>
+							(click)="navigateToColection(col.id)" [disabled]="!enabled">{{col.name}}</button>
 				</mat-menu>
 			</div>
 			<div>
-				<button class="nav-item" mat-button (click)="backUp()">
+				<button class="nav-item" mat-button (click)="backUp()" [disabled]="!enabled">
 					<mat-icon>save</mat-icon>
 					Backup
 				</button>
-				<button class="nav-item" mat-button (click)="handleRestore()">
+				<button class="nav-item" mat-button (click)="handleRestore()" [disabled]="!enabled">
 					<mat-icon>upgrade</mat-icon>
 					Restore
+				</button>
+				<button class="nav-item" mat-button (click)="handleLogout()" [disabled]="!enabled">
+					Logout
 				</button>
 			</div>
 		</div>

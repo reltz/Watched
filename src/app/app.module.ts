@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -17,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { BackupRestoreService } from '../app/Services/backup-restore.service';
 import { environment } from '../environments/environment';
+import * as fireConfig from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
@@ -26,6 +28,7 @@ import { ColectionTableComponent } from './Pages/Colection/colection-table/colec
 import { ConfirmDialogComponent } from './Pages/Colection/confirm-delete-colection/confirm-dialog.component';
 import { CreateColectionDialogComponent } from './Pages/Colection/create-colection-dialog/create-colection-dialog.component';
 import { ImportColectionDialogComponent } from './Pages/Colection/import-colection-dialog/import-colection-dialog.component';
+import { WatchedLoginComponent } from './Pages/login/watched-login.component';
 import { MovieComponent } from './Pages/Movie/movie/movie.component';
 import { RestoreDialogComponent } from './Pages/restore-dialog/restore-dialog.component';
 import { AddToColectionDialogComponent } from './Pages/Search/add-to-colection-dialog/add-to-colection-dialog.component';
@@ -71,6 +74,7 @@ const MatModules = [
 		ConfirmDialogComponent,
 		RestoreDialogComponent,
 		ImportColectionDialogComponent,
+		WatchedLoginComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -78,6 +82,7 @@ const MatModules = [
 		BrowserAnimationsModule,
 		ReactiveFormsModule,
 		HttpClientModule,
+		AngularFireModule.initializeApp(fireConfig.environment.firebaseConfig),
 		...MatModules,
 		environment.production ? [] : AkitaNgDevtools.forRoot(),
 	],
