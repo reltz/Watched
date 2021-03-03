@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IColection, IMovie } from '../Models/ApiModels';
 import { WatchedStore } from '../State/WatchedStore';
 import { BaseAdapterService } from './base-adapter';
+import { FirebaseAdapterService } from './firebase-adapter.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -12,6 +13,7 @@ export class LocalStorageAdapterService extends BaseAdapterService
 
 	constructor(
 		private store: WatchedStore,
+		private firebaseAdp: FirebaseAdapterService,
 	)
 	{
 		super();
@@ -41,6 +43,7 @@ export class LocalStorageAdapterService extends BaseAdapterService
 		const db = this.getLocalStorageObject();
 		db[colection.id] = colection;
 		this.setLocalStorageObject(db);
+		this.firebaseAdp.upsert(colection);
 	}
 
 	public updateCol(colection: Partial<IColection>)
