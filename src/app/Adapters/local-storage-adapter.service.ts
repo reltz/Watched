@@ -29,20 +29,21 @@ export class LocalStorageAdapterService extends BaseAdapterService
 
 	public loadAll()
 	{
-		const db = this.getLocalStorageObject();
+		this.firebaseAdp.loadAll();
+		// const db = this.getLocalStorageObject();
 		// this.store.remove();
-		Object.keys(db).forEach(key =>
-		{
-			this.store.upsert(db[key].id, db[key]);
-		});
+		// Object.keys(db).forEach(key =>
+		// {
+		// 	this.store.upsert(db[key].id, db[key]);
+		// });
 	}
 
 	/* Colections */
 	public upsert(colection: IColection)
 	{
-		const db = this.getLocalStorageObject();
-		db[colection.id] = colection;
-		this.setLocalStorageObject(db);
+		// const db = this.getLocalStorageObject();
+		// db[colection.id] = colection;
+		// this.setLocalStorageObject(db);
 		this.firebaseAdp.upsert(colection);
 	}
 

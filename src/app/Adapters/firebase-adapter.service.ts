@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { IColection, IMovie } from '../Models/ApiModels';
@@ -8,17 +8,12 @@ import { BaseAdapterService } from './base-adapter';
 
 export const dbCollectionName = "Watched";
 
-export interface IFirebaseColection extends IColection
-{
-	ownerId: string;
-}
-
 @Injectable({
 	providedIn: 'root',
 })
 export class FirebaseAdapterService extends BaseAdapterService
 {
-	private url = 'https://us-central1-tasklistdb.cloudfunctions.net/app/MovieDb';
+	private url = 'https://us-central1-tasklistdb.cloudfunctions.net/app/collection';
 	constructor(
 		private store: WatchedStore,
 		private httpClient: HttpClient,
@@ -41,7 +36,16 @@ export class FirebaseAdapterService extends BaseAdapterService
 
 		try
 		{
-			this.httpClient.get(this.url, { headers });
+			let result;
+			this.httpClient.get(this.url, { headers })
+				.pipe(
+					take(1),
+				)
+				.subscribe(data =>
+				{
+					result = data;
+					console.info('loadAll result is ', result);
+				});
 		} catch (error)
 		{
 			console.warn('error on getting all: ', error);
@@ -56,12 +60,7 @@ export class FirebaseAdapterService extends BaseAdapterService
 
 		try
 		{
-			const firebaseCollection: IFirebaseColection = {
-				ownerId: (await this.authService.afAuth.currentUser).uid,
-				...colection,
-			};
-
-			this.httpClient.post(this.url, firebaseCollection, { headers });
+			this.httpClient.post(this.url, colection, { headers });
 
 		} catch (ex)
 		{
