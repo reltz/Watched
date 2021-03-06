@@ -13,7 +13,9 @@ export const dbCollectionName = "Watched";
 })
 export class FirebaseAdapterService extends BaseAdapterService
 {
-	private url = 'https://us-central1-tasklistdb.cloudfunctions.net/app/collection';
+	// private url = 'https://us-central1-tasklistdb.cloudfunctions.net/app/collection';
+	private url = 'http://localhost:5001/tasklistdb/us-central1/app/collection';
+
 	constructor(
 		private store: WatchedStore,
 		private httpClient: HttpClient,
@@ -30,13 +32,17 @@ export class FirebaseAdapterService extends BaseAdapterService
 
 	public async loadAll()
 	{
-		const headers = new HttpHeaders();
-		headers.set('Content-Type', 'application/json; charset=utf-8');
-		headers.set('Authorization', `Bearer ${await this.getToken()}`);
+		const token = await this.getToken();
+		console.warn('token is: ', token);
 
 		try
 		{
 			let result;
+			const headers = {
+				'Content-Type': 'application/json; charset=utf-8',
+				'Authorization': `Bearer ${token}`,
+			};
+
 			this.httpClient.get(this.url, { headers })
 				.pipe(
 					take(1),
