@@ -60,13 +60,26 @@ export class FirebaseAdapterService extends BaseAdapterService
 
 	public async upsert(colection: IColection)
 	{
-		const headers = new HttpHeaders();
-		headers.set('Content-Type', 'application/json; charset=utf-8');
-		headers.set('Authorization', `Bearer ${await this.getToken()}`);
+		const token = await this.getToken();
+		console.warn('token is: ', token);
+
+		const headers = {
+			'Content-Type': 'application/json; charset=utf-8',
+			'Authorization': `Bearer ${token}`,
+		};
 
 		try
 		{
-			this.httpClient.post(this.url, colection, { headers });
+			let result;
+			this.httpClient.post(this.url, colection, { headers })
+				.pipe(
+					take(1),
+				)
+				.subscribe(data =>
+				{
+					result = data;
+					console.info('post result is ', result);
+				});
 
 		} catch (ex)
 		{
