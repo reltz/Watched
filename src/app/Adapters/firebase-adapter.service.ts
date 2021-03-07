@@ -36,8 +36,8 @@ interface IDeleteRequestBody
 })
 export class FirebaseAdapterService extends BaseAdapterService
 {
-	// private url = 'https://us-central1-tasklistdb.cloudfunctions.net/app/collection';
-	private url = 'http://localhost:5001/tasklistdb/us-central1/app/collection';
+	private url = 'https://us-central1-tasklistdb.cloudfunctions.net/app/collection';
+	// private url = 'http://localhost:5001/tasklistdb/us-central1/app/collection';
 
 	constructor(
 		private query: WatchedQuery,
