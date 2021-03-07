@@ -30,7 +30,7 @@ export class AppComponent implements OnInit
 			map(user => !!user),
 		);
 
-		this.svc.init();
+		// this.svc.init();
 		this.svc.loadAll();
 		this.router.navigateByUrl('/colections');
 	}

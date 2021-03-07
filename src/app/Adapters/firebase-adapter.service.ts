@@ -8,6 +8,23 @@ import { BaseAdapterService } from './base-adapter';
 
 export const dbCollectionName = "Watched";
 
+interface IFirebaseCollection
+{
+	owner: string;
+	ownerEmail: string;
+	ownerName: string;
+	name: string;
+	id: string;
+	movies: IMovie[];
+}
+
+interface IPostResult
+{
+	status: string;
+	message: string;
+	data: Object;
+}
+
 @Injectable({
 	providedIn: 'root',
 })
@@ -33,11 +50,9 @@ export class FirebaseAdapterService extends BaseAdapterService
 	public async loadAll()
 	{
 		const token = await this.getToken();
-		console.warn('token is: ', token);
-
 		try
 		{
-			let result;
+			let result: IColection[];
 			const headers = {
 				'Content-Type': 'application/json; charset=utf-8',
 				'Authorization': `Bearer ${token}`,
@@ -49,8 +64,12 @@ export class FirebaseAdapterService extends BaseAdapterService
 				)
 				.subscribe(data =>
 				{
-					result = data;
-					console.info('loadAll result is ', result);
+					console.info('data from api: ', data);
+					result = this.mapFirebaseToModel(data as IFirebaseCollection[]);
+					result.forEach(col =>
+					{
+						this.store.upsert(col.id, col);
+					});
 				});
 		} catch (error)
 		{
@@ -70,15 +89,17 @@ export class FirebaseAdapterService extends BaseAdapterService
 
 		try
 		{
-			let result;
 			this.httpClient.post(this.url, colection, { headers })
 				.pipe(
 					take(1),
 				)
-				.subscribe(data =>
+				.subscribe((result: IPostResult) =>
 				{
-					result = data;
-					console.info('post result is ', result);
+					if (result.status === "success")
+					{
+						this.store.upsert(colection.id, colection);
+					}
+					console.info('status:  ', result.message);
 				});
 
 		} catch (ex)
@@ -102,5 +123,19 @@ export class FirebaseAdapterService extends BaseAdapterService
 	public removeMovie(colId: string, movieId: string)
 	{
 		throw new Error("Method not implemented.");
+	}
+
+	private mapFirebaseToModel(cols: IFirebaseCollection[]): IColection[]
+	{
+		const collections: IColection[] = [];
+		cols.forEach(col =>
+		{
+			collections.push({
+				id: col.id,
+				movies: col.movies,
+				name: col.name,
+			});
+		});
+		return collections;
 	}
 }
