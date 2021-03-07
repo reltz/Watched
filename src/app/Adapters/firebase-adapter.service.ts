@@ -25,6 +25,11 @@ interface IPostResult
 	data: Object;
 }
 
+interface IDeleteRequestBody
+{
+	collectionId: string;
+}
+
 @Injectable({
 	providedIn: 'root',
 })
@@ -80,7 +85,6 @@ export class FirebaseAdapterService extends BaseAdapterService
 	public async upsert(colection: IColection)
 	{
 		const token = await this.getToken();
-		console.warn('token is: ', token);
 
 		const headers = {
 			'Content-Type': 'application/json; charset=utf-8',
@@ -104,7 +108,7 @@ export class FirebaseAdapterService extends BaseAdapterService
 
 		} catch (ex)
 		{
-			console.error('error on post: ', ex);
+			console.error('error on upsert: ', ex);
 		}
 
 	}
@@ -112,10 +116,42 @@ export class FirebaseAdapterService extends BaseAdapterService
 	{
 		throw new Error("Method not implemented.");
 	}
-	public deleteCol(colectionId: string)
+
+	public async deleteCol(colectionId: string)
 	{
-		throw new Error("Method not implemented.");
+		const token = await this.getToken();
+
+		const headers = {
+			'Content-Type': 'application/json; charset=utf-8',
+			'Authorization': `Bearer ${token}`,
+		};
+
+		const deleteRequest: IDeleteRequestBody = {
+			collectionId: colectionId,
+		};
+
+		try
+		{
+			const deleteUrl = `${this.url}/delete`;
+			this.httpClient.post(deleteUrl, deleteRequest, { headers })
+				.pipe(
+					take(1),
+				)
+				.subscribe((result: IPostResult) =>
+				{
+					if (result.status === "success")
+					{
+						this.store.remove(colectionId);
+					}
+					console.info('status:  ', result.message);
+				});
+
+		} catch (ex)
+		{
+			console.error('error on delete: ', ex);
+		}
 	}
+
 	public upsertOrUpdateMovie(movie: IMovie, colectionId: string)
 	{
 		throw new Error("Method not implemented.");
