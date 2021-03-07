@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { IColection, IMovie } from '../Models/ApiModels';
 import { FirebaseAuthService } from '../Services/firebase-auth.service';
+import { WatchedQuery } from '../State/WatchedQuery';
 import { WatchedStore } from '../State/WatchedStore';
 import { BaseAdapterService } from './base-adapter';
 
@@ -39,6 +40,7 @@ export class FirebaseAdapterService extends BaseAdapterService
 	private url = 'http://localhost:5001/tasklistdb/us-central1/app/collection';
 
 	constructor(
+		private query: WatchedQuery,
 		private store: WatchedStore,
 		private httpClient: HttpClient,
 		private authService: FirebaseAuthService,
@@ -73,6 +75,7 @@ export class FirebaseAdapterService extends BaseAdapterService
 					result = this.mapFirebaseToModel(data as IFirebaseCollection[]);
 					result.forEach(col =>
 					{
+						console.info('col is: ', col);
 						this.store.upsert(col.id, col);
 					});
 				});
@@ -112,6 +115,8 @@ export class FirebaseAdapterService extends BaseAdapterService
 		}
 
 	}
+
+	// not used
 	public updateCol(colection: Partial<import("../Models/ApiModels").IColection>)
 	{
 		throw new Error("Method not implemented.");
@@ -154,11 +159,29 @@ export class FirebaseAdapterService extends BaseAdapterService
 
 	public upsertOrUpdateMovie(movie: IMovie, colectionId: string)
 	{
-		throw new Error("Method not implemented.");
+		const collection = JSON.parse(JSON.stringify(this.query.getEntity(colectionId)));
+
+		const foundMovie = collection.movies.find(mov => mov.Id === movie.Id);
+		const index = collection.movies.indexOf(foundMovie);
+
+		if (!!foundMovie)
+		{
+			collection.movies[index] = movie;
+		}
+		else
+		{
+			collection.movies.push(movie);
+		}
+		this.upsert(collection);
 	}
+
 	public removeMovie(colId: string, movieId: string)
 	{
-		throw new Error("Method not implemented.");
+		const collection: IColection = JSON.parse(JSON.stringify(this.query.getEntity(colId)));
+		const movieToRemove = collection.movies.find(mov => mov.Id === movieId);
+		const index = collection.movies.indexOf(movieToRemove);
+		collection.movies.splice(index, 1);
+		this.upsert(collection);
 	}
 
 	private mapFirebaseToModel(cols: IFirebaseCollection[]): IColection[]

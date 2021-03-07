@@ -51,16 +51,16 @@ export class MainService
 		}
 	}
 
-	public update(colection: Partial<IColection>): void
-	{
-		try
-		{
-			this.adapter.updateCol(colection);
-		} catch (e)
-		{
-			console.warn('Failed to update colection ', e);
-		}
-	}
+	// public update(colection: Partial<IColection>): void
+	// {
+	// 	try
+	// 	{
+	// 		this.adapter.updateCol(colection);
+	// 	} catch (e)
+	// 	{
+	// 		console.warn('Failed to update colection ', e);
+	// 	}
+	// }
 
 	public delete(colectionId: string): void
 	{

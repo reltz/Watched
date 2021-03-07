@@ -53,7 +53,7 @@ export class ColectionLandingComponent implements OnInit, OnDestroy
 		{
 			const colect: IColection = this.colTable.getUpdatedColection();
 			colect.name = this.colectionNameControl.value;
-			this.svc.update(colect);
+			this.svc.upsert(colect);
 			alert('Saved !');
 		} catch (e)
 		{

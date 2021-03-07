@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { Observable, pipe } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { FirebaseAuthService } from './Services/firebase-auth.service';
 import { MainService } from './Services/main.service';
 
@@ -31,7 +31,11 @@ export class AppComponent implements OnInit
 		);
 
 		// this.svc.init();
-		this.svc.loadAll();
+		this.isLoggedIn$.
+			pipe(
+				filter(isLoggedIn => !!isLoggedIn),
+			).subscribe(() => this.svc.loadAll());
+
 		this.router.navigateByUrl('/colections');
 	}
 }
