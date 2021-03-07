@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { IColection } from '../Models/ApiModels';
-import { RestoreDialogComponent } from '../Pages/restore-dialog/restore-dialog.component';
 import { BackupRestoreService } from '../Services/backup-restore.service';
 import { FileUtilsService } from '../Services/file-utils.service';
+import { FirebaseAuthService } from '../Services/firebase-auth.service';
 import { RoutingService } from '../Services/routing.service';
 import { WatchedQuery } from '../State/WatchedQuery';
+import { WatchedStore } from '../State/WatchedStore';
 
 @Component({
 	selector: 'app-navigation-menu',
@@ -16,12 +17,15 @@ import { WatchedQuery } from '../State/WatchedQuery';
 export class NavigationMenuComponent implements OnInit
 {
 	@Input() public title: string;
+	@Input() public enabled: boolean;
 	public colections$: Observable<IColection[]>;
 
 	constructor(
+		private store: WatchedStore,
 		private query: WatchedQuery,
 		private routerSvc: RoutingService,
 		private backUpRestore: BackupRestoreService,
+		private authService: FirebaseAuthService,
 		private readonly fileUtils: FileUtilsService,
 		protected readonly dialog: MatDialog,
 	) { }
@@ -36,20 +40,25 @@ export class NavigationMenuComponent implements OnInit
 		this.routerSvc.navigateColection(colId);
 	}
 
-	public backUp()
+	// public backUp()
+	// {
+	// 	const link = document.createElement("a");
+	// 	link.href = this.backUpRestore.downloadBackup();
+
+	// 	const dateTime = this.fileUtils.getCurrentDateTime();
+
+	// 	link.download = 'Watched-backup-' + dateTime + '.txt';
+	// 	link.click();
+	// }
+
+	// public handleRestore()
+	// {
+	// 	this.dialog.open(RestoreDialogComponent)
+	// 		.afterClosed();
+	// }
+
+	public handleLogout()
 	{
-		const link = document.createElement("a");
-		link.href = this.backUpRestore.downloadBackup();
-
-		const dateTime = this.fileUtils.getCurrentDateTime();
-
-		link.download = 'Watched-backup-' + dateTime + '.txt';
-		link.click();
-	}
-
-	public handleRestore()
-	{
-		this.dialog.open(RestoreDialogComponent)
-			.afterClosed();
+		this.authService.afAuth.signOut().then(() => this.store.reset());
 	}
 }

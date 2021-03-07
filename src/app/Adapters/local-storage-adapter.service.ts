@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { IColection, IMovie } from '../Models/ApiModels';
 import { WatchedStore } from '../State/WatchedStore';
+import { BaseAdapterService } from './base-adapter';
+import { FirebaseAdapterService } from './firebase-adapter.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class LocalStorageAdapterService
+export class LocalStorageAdapterService extends BaseAdapterService
 {
 	private readonly localDBName: string = 'WatchedLS';
 
 	constructor(
 		private store: WatchedStore,
+		private firebaseAdp: FirebaseAdapterService,
 	)
 	{
-
+		super();
 	}
 
 	public init()
@@ -27,7 +30,7 @@ export class LocalStorageAdapterService
 	public loadAll()
 	{
 		const db = this.getLocalStorageObject();
-		// this.store.remove();
+		this.store.remove();
 		Object.keys(db).forEach(key =>
 		{
 			this.store.upsert(db[key].id, db[key]);

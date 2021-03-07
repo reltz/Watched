@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiAdapterService } from '../Adapters/api-adapter.service';
-import { LocalStorageAdapterService } from '../Adapters/local-storage-adapter.service';
+import { FirebaseAdapterService } from '../Adapters/firebase-adapter.service';
 import { IColection, IMovie, ISearchResult } from '../Models/ApiModels';
 import { WatchedStore } from '../State/WatchedStore';
-import { RoutingService } from './routing.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,21 +17,21 @@ export class MainService
 	constructor(
 		private api: ApiAdapterService,
 		private store: WatchedStore,
-		private storage: LocalStorageAdapterService,
+		private adapter: FirebaseAdapterService,
 		private router: Router,
 	)
 	{
 		this.currentSearchResult$ = this.currentSearch.asObservable();
 	}
 
-	public init(): void
-	{
-		this.storage.init();
-	}
+	// public init(): void
+	// {
+	// 	this.adapter.init();
+	// }
 
 	public loadAll(): void
 	{
-		this.storage.loadAll();
+		this.adapter.loadAll();
 	}
 
 	public setActiveColection(id: string)
@@ -44,7 +43,7 @@ export class MainService
 	{
 		try
 		{
-			this.storage.upsert(colection);
+			this.adapter.upsert(colection);
 			this.setActiveColection(colection.id);
 		} catch (e)
 		{
@@ -52,22 +51,22 @@ export class MainService
 		}
 	}
 
-	public update(colection: Partial<IColection>): void
-	{
-		try
-		{
-			this.storage.updateCol(colection);
-		} catch (e)
-		{
-			console.warn('Failed to update colection ', e);
-		}
-	}
+	// public update(colection: Partial<IColection>): void
+	// {
+	// 	try
+	// 	{
+	// 		this.adapter.updateCol(colection);
+	// 	} catch (e)
+	// 	{
+	// 		console.warn('Failed to update colection ', e);
+	// 	}
+	// }
 
 	public delete(colectionId: string): void
 	{
 		try
 		{
-			this.storage.deleteCol(colectionId);
+			this.adapter.deleteCol(colectionId);
 			this.router.navigateByUrl(`colections`);
 		} catch (e)
 		{
@@ -79,7 +78,7 @@ export class MainService
 	{
 		try
 		{
-			this.storage.upsertOrUpdateMovie(movie, colectionId);
+			this.adapter.upsertOrUpdateMovie(movie, colectionId);
 		} catch (e)
 		{
 			console.warn('Failed to upsert or update movie ', e);
@@ -90,7 +89,7 @@ export class MainService
 	{
 		try
 		{
-			this.storage.removeMovie(colectionId, movieId);
+			this.adapter.removeMovie(colectionId, movieId);
 		} catch (e)
 		{
 			console.warn('Failed to remove movie ', JSON.stringify(e));
