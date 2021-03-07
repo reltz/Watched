@@ -4,6 +4,7 @@ import { Observable, pipe } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { FirebaseAuthService } from './Services/firebase-auth.service';
 import { MainService } from './Services/main.service';
+import { WatchedStore } from './State/WatchedStore';
 
 @Component({
 	selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit
 	// public response: ISearchResult;
 
 	constructor(
+		private store: WatchedStore,
 		private svc: MainService,
 		private router: Router,
 		private authSvc: FirebaseAuthService,
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit
 		this.isLoggedIn$.
 			pipe(
 				filter(isLoggedIn => !!isLoggedIn),
+				tap(() => this.store.reset()),
 			).subscribe(() => this.svc.loadAll());
 
 		this.router.navigateByUrl('/colections');
