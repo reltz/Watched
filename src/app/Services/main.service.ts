@@ -24,11 +24,6 @@ export class MainService
 		this.currentSearchResult$ = this.currentSearch.asObservable();
 	}
 
-	// public init(): void
-	// {
-	// 	this.adapter.init();
-	// }
-
 	public loadAll(): void
 	{
 		this.adapter.loadAll();
@@ -45,22 +40,12 @@ export class MainService
 		{
 			this.adapter.upsert(colection);
 			this.setActiveColection(colection.id);
+			console.info('updated collection: ', colection);
 		} catch (e)
 		{
-			console.warn('Failed to create colection ', e);
+			console.error('Failed to create colection ', e);
 		}
 	}
-
-	// public update(colection: Partial<IColection>): void
-	// {
-	// 	try
-	// 	{
-	// 		this.adapter.updateCol(colection);
-	// 	} catch (e)
-	// 	{
-	// 		console.warn('Failed to update colection ', e);
-	// 	}
-	// }
 
 	public delete(colectionId: string): void
 	{
@@ -70,7 +55,7 @@ export class MainService
 			this.router.navigateByUrl(`colections`);
 		} catch (e)
 		{
-			console.warn('Failed to delete colection ', e);
+			console.error('Failed to delete colection ', e);
 		}
 	}
 
@@ -81,7 +66,7 @@ export class MainService
 			this.adapter.upsertOrUpdateMovie(movie, colectionId);
 		} catch (e)
 		{
-			console.warn('Failed to upsert or update movie ', e);
+			console.error('Failed to upsert or update movie ', e);
 		}
 	}
 
@@ -92,7 +77,7 @@ export class MainService
 			this.adapter.removeMovie(colectionId, movieId);
 		} catch (e)
 		{
-			console.warn('Failed to remove movie ', JSON.stringify(e));
+			console.error('Failed to remove movie ', JSON.stringify(e));
 		}
 	}
 	public Search(term: string): void

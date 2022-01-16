@@ -55,6 +55,10 @@ export class AddToColectionDialogComponent implements OnInit
 				.subscribe(mov =>
 				{
 					this.svc.upsertOrUpdateMovie(mov, this.colectionIdControl.value);
+
+					const collName = this.query.getEntity(this.colectionIdControl.value).name;
+					console.info(`Adding movie ${mov.Title} to collection ${collName}`)
+
 					this.dialogRef.close(true);
 				});
 		}

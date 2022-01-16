@@ -1,0 +1,16 @@
+<div class="search-collections">
+	<mat-card>
+		<mat-card-content>
+			<div>
+				<mat-form-field>
+					<input matInput autocomplete="off" [formControl]="formControl" placeholder="Movie or Series Name" type="text" />
+				</mat-form-field>
+				<button id="do-search" mat-raised-button (click)="doSearch()">Search your collections</button>
+			</div>
+		</mat-card-content>
+		<mat-list>
+			<li *ngFor="let match of searchResult">Collection: {{match[0]}} - Movie: {{match[1]}}</li>
+			<span id="no-result" *ngIf="noResult">No result matched your search.</span>
+		</mat-list>
+	</mat-card>
+</div>

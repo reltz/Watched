@@ -71,11 +71,9 @@ export class FirebaseAdapterService extends BaseAdapterService
 				)
 				.subscribe(data =>
 				{
-					console.info('data from api: ', data);
 					result = this.mapFirebaseToModel(data as IFirebaseCollection[]);
 					result.forEach(col =>
 					{
-						console.info('col is: ', col);
 						this.store.upsert(col.id, col);
 					});
 				});
@@ -181,6 +179,7 @@ export class FirebaseAdapterService extends BaseAdapterService
 		const movieToRemove = collection.movies.find(mov => mov.Id === movieId);
 		const index = collection.movies.indexOf(movieToRemove);
 		collection.movies.splice(index, 1);
+		console.info(`Deleting movie: ${movieToRemove.Title} from ${collection.name}`);
 		this.upsert(collection);
 	}
 

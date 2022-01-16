@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -42,6 +43,7 @@ import { MainService } from './Services/main.service';
 import { RoutingService } from './Services/routing.service';
 import { WatchedQuery } from './State/WatchedQuery';
 import { WatchedStore } from './State/WatchedStore';
+import { CollectionSearchComponent } from './Pages/Colection/collection-search/collection-search.component';
 
 const MatModules = [
 	MatCardModule,
@@ -55,6 +57,7 @@ const MatModules = [
 	MatSelectModule,
 	MatTableModule,
 	MatDividerModule,
+	MatListModule,
 ];
 
 @NgModule({
@@ -75,6 +78,7 @@ const MatModules = [
 		RestoreDialogComponent,
 		ImportColectionDialogComponent,
 		WatchedLoginComponent,
+		CollectionSearchComponent,
 	],
 	imports: [
 		BrowserModule,

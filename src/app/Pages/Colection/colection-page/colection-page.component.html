@@ -30,6 +30,9 @@
 		Create Colection
 	</button>
 	<button mat-flat-button class="import-button" (click)="importColection()">Import colection from file</button>
+
+
+	<app-collection-search></app-collection-search>
 	<div *ngIf="!isEmpty; else emptyState">
 		<h2 class="my-colections">My colections</h2>
 		<div class="colection-list">

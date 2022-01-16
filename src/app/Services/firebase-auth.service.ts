@@ -24,7 +24,6 @@ export class FirebaseAuthService
 			.then(async (result) =>
 			{
 				console.info('You have been successfully logged in!');
-				// console.warn('user is: ', await this.afAuth.currentUser);
 			}).catch((error) =>
 			{
 				console.error(error);

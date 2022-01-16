@@ -16,6 +16,7 @@ export interface ISearchResultItem
 
 export interface IColection
 {
+	[x: string]: any;
 	id: string;
 	name: string;
 	movies: IMovie[];
