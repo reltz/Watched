@@ -2,7 +2,7 @@
 	<mat-card-content>
 		<div>
 			<mat-form-field>
-				<input matInput autocomplete="off" [formControl]="formControl" placeholder="Movie or Series Name" type="text" />
+				<input matInput autocomplete="off" [formControl]="formControl" placeholder="Movie or Series Name" type="text" (keydown.enter)="doSearch()" />
 			</mat-form-field>
 			<button mat-raised-button (click)="doSearch()">Search</button>
 		</div>
