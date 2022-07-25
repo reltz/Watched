@@ -13,7 +13,6 @@ export class LocalStorageAdapterService extends BaseAdapterService
 
 	constructor(
 		private store: WatchedStore,
-		private firebaseAdp: FirebaseAdapterService,
 	)
 	{
 		super();
@@ -29,6 +28,7 @@ export class LocalStorageAdapterService extends BaseAdapterService
 
 	public loadAll()
 	{
+		this.init();
 		const db = this.getLocalStorageObject();
 		this.store.remove();
 		Object.keys(db).forEach(key =>

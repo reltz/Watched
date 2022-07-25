@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiAdapterService } from '../Adapters/api-adapter.service';
 import { FirebaseAdapterService } from '../Adapters/firebase-adapter.service';
+import { LocalStorageAdapterService } from '../Adapters/local-storage-adapter.service';
 import { IColection, IMovie, ISearchResult } from '../Models/ApiModels';
 import { WatchedStore } from '../State/WatchedStore';
 
@@ -18,6 +19,7 @@ export class MainService
 		private api: ApiAdapterService,
 		private store: WatchedStore,
 		private adapter: FirebaseAdapterService,
+		// private adapter: LocalStorageAdapterService,
 		private router: Router,
 	)
 	{

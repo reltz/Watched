@@ -21,7 +21,8 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 	public DataSource: MatTableDataSource<IMovie>;
 	public formArray: FormArray;
 	public userEditedGroup: FormGroup;
-	public readonly columnNames = ['Poster', 'Title', 'Year', 'Type', 'Director', 'Runtime', 'Genres', 'Actors', 'Notes', 'IMDBRating', 'RTRating', 'UserRating', 'Actions'];
+	// public readonly columnNames = ['Poster', 'Title', 'Year', 'Type', 'Director', 'Runtime', 'Genres', 'Actors', 'Notes', 'IMDBRating', 'RTRating', 'UserRating', 'Actions'];
+	public readonly columnNames = ['Poster', 'Title', 'Year', 'Type', 'Director', 'Runtime', 'Genres', 'Actors', 'IMDBRating', 'RTRating', 'Actions'];
 	private isAlive: boolean = true;
 
 	constructor(
@@ -33,10 +34,9 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 
 	public ngOnInit(): void
 	{
-		this.formArray = new FormArray([]);
-
 		this.DataSource = new MatTableDataSource<IMovie>();
 		this.router.params.pipe(
+			// tap(() => this.formArray = new FormArray([])),
 			takeWhile(() => this.isAlive),
 			map(params => params['id']),
 			switchMap(id => this.query.selectEntity(id)),
@@ -46,10 +46,10 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 		).subscribe(movies =>
 		{
 			this.DataSource.data = movies;
-			movies.forEach(each =>
-			{
-				this.formArray.push(this.createFormGroup(each));
-			});
+			// movies.forEach(each =>
+			// {
+			// 	this.formArray.push(this.createFormGroup(each));
+			// });
 		});
 	}
 
@@ -70,6 +70,9 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 
 	public removeMovie(movieId, byPassConfirmation = false)
 	{
+		console.log(`id to delete is: ${movieId}`);
+		const movieIs = this.colection.movies.find(a => a.Id === movieId);
+		console.log("will delete ", movieIs.Title);
 		const data: IDialogData = {
 			title: 'Confirm deletion',
 			message: `Are you sure you want to remove movie from colection?`,
@@ -119,13 +122,12 @@ export class ColectionTableComponent implements OnInit, OnDestroy
 		return movieToSave;
 	}
 
-	private createFormGroup(movie: IMovie)
-	{
-		return new FormGroup({
-			id: new FormControl(movie.Id),
-			userRating: new FormControl(movie.UserRating),
-			userNotes: new FormControl(movie.UserNotes),
-		});
-	}
-
+	// private createFormGroup(movie: IMovie): FormGroup
+	// {
+	// 	return new FormGroup({
+	// 		id: new FormControl(movie.Id),
+	// 		userRating: new FormControl(movie.UserRating),
+	// 		userNotes: new FormControl(movie.UserNotes),
+	// 	});
+	// }
 }

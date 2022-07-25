@@ -24,7 +24,6 @@ export class ConfirmDialogComponent implements OnInit
 
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public dialogData: IDialogData,
-		private svc: MainService,
 		protected readonly dialogRef: MatDialogRef<ConfirmDialogComponent>,
 	) { }
 
