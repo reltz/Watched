@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,17 +21,27 @@ export class ApiAdapterService
 
 	public async Search(searchTerm: string): Promise<ISearchResultItem[]>
 	{
-		const result = [];
 		const completeUrl = this.url + this.getSearchParamsAndKey(searchTerm);
+
+		// observable (deprecated)
 		// const response = this.http.get<ISearchResult>(completeUrl, { responseType: "json" });
-		const response = await (await fetch(completeUrl)).json();
 
-		const respo2 = await (await fetch(completeUrl + "&page=2")).json();
-		const respo3 = await (await fetch(completeUrl + "&page=3")).json();
-		const respo4 = await (await fetch(completeUrl + "&page=4")).json();
+		const resp = await Promise.all(
+			[
+				fetch(completeUrl),
+				fetch(completeUrl + "&page=2"),
+				fetch(completeUrl + "&page=3")
+			]);
 
+		const r1 = (await resp[0].json()).Search;
+		const r2 = (await resp[1].json()).Search;
+		const r3 = (await resp[2].json()).Search;
 
-		result.push(...response.Search, ...respo2.Search, ...respo3.Search, ...respo4.Search);
+		console.log(r1);
+		let result = [];
+		if (r1) { result.push(...r1) }
+		if (r2) { result.push(...r2) }
+		if (r3) result.push(...r3);
 
 		return result;
 	}
