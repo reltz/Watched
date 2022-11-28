@@ -86,6 +86,5 @@ export class MainService
 	{
 		const result = await this.api.Search(term)
 		this.currentSearch.next(result);
-		console.log(`Search response: ${JSON.stringify(result)}`);
 	};
 }

@@ -37,7 +37,6 @@ export class ApiAdapterService
 		const r2 = (await resp[1].json()).Search;
 		const r3 = (await resp[2].json()).Search;
 
-		console.log(r1);
 		let result = [];
 		if (r1) { result.push(...r1) }
 		if (r2) { result.push(...r2) }
