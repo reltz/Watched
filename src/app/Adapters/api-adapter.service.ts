@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IMovie, IMovieFromApi, ISearchResult } from '../Models/ApiModels';
+import { IMovie, IMovieFromApi, ISearchResult, ISearchResultItem } from '../Models/ApiModels';
 import { LocalStorageAdapterService } from './local-storage-adapter.service';
 
 @Injectable({
@@ -18,11 +18,21 @@ export class ApiAdapterService
 		private storage: LocalStorageAdapterService,
 	) { }
 
-	public Search(searchTerm: string): Observable<ISearchResult>
+	public async Search(searchTerm: string): Promise<ISearchResultItem[]>
 	{
+		const result = [];
 		const completeUrl = this.url + this.getSearchParamsAndKey(searchTerm);
-		const response = this.http.get<ISearchResult>(completeUrl, { responseType: "json" });
-		return response;
+		// const response = this.http.get<ISearchResult>(completeUrl, { responseType: "json" });
+		const response = await (await fetch(completeUrl)).json();
+
+		const respo2 = await (await fetch(completeUrl + "&page=2")).json();
+		const respo3 = await (await fetch(completeUrl + "&page=3")).json();
+		const respo4 = await (await fetch(completeUrl + "&page=4")).json();
+
+
+		result.push(...response.Search, ...respo2.Search, ...respo3.Search, ...respo4.Search);
+
+		return result;
 	}
 
 	public GetMovie(id: string): Observable<IMovie>

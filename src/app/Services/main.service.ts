@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiAdapterService } from '../Adapters/api-adapter.service';
 import { FirebaseAdapterService } from '../Adapters/firebase-adapter.service';
 import { LocalStorageAdapterService } from '../Adapters/local-storage-adapter.service';
-import { IColection, IMovie, ISearchResult } from '../Models/ApiModels';
+import { IColection, IMovie, ISearchResult, ISearchResultItem } from '../Models/ApiModels';
 import { WatchedStore } from '../State/WatchedStore';
 
 @Injectable({
@@ -12,8 +12,8 @@ import { WatchedStore } from '../State/WatchedStore';
 })
 export class MainService
 {
-	private currentSearch: BehaviorSubject<ISearchResult> = new BehaviorSubject<ISearchResult>({ Search: [], Response: "", totalResults: "" });
-	public currentSearchResult$: Observable<ISearchResult>;
+	private currentSearch: BehaviorSubject<ISearchResultItem[]> = new BehaviorSubject<ISearchResultItem[]>([]);
+	public currentSearchResult$: Observable<ISearchResultItem[]>;
 
 	constructor(
 		private api: ApiAdapterService,
@@ -82,8 +82,10 @@ export class MainService
 			console.error('Failed to remove movie ', JSON.stringify(e));
 		}
 	}
-	public Search(term: string): void
+	public async Search(term: string): Promise<void>
 	{
-		this.api.Search(term).subscribe(result => this.currentSearch.next(result));
-	}
+		const result = await this.api.Search(term)
+		this.currentSearch.next(result);
+		console.log(`Search response: ${JSON.stringify(result)}`);
+	};
 }

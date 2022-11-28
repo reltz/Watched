@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISearchResult } from 'src/app/Models/ApiModels';
+import { ISearchResultItem } from 'src/app/Models/ApiModels';
 import { MainService } from 'src/app/Services/main.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { MainService } from 'src/app/Services/main.service';
 })
 export class SearchResultWrapperComponent implements OnInit
 {
-	public searchResult$: Observable<ISearchResult>;
+	public searchResult$: Observable<ISearchResultItem[]>;
 	constructor(
 		private svc: MainService,
 	) { }
