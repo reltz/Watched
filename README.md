@@ -1,27 +1,59 @@
-# SeriesMovies
+# Watched
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.3.
+A personal library for the movies & series you watch — organize them into
+collections, search OMDB to add new titles, and access everything from any device.
 
-## Development server
+This is the **2026 rewrite** of the original Angular 11 app: a fresh, modern,
+responsive Angular 19 application that talks to the **same backends**.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+> The original Angular 11 version lives on the `master` branch. This modern
+> rewrite lives on the `Watched2026` branch.
 
-## Code scaffolding
+## Stack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Angular 19** — standalone components, signals, new control flow (`@if`/`@for`)
+- **Angular Material 3** — dark "cinema" theme via the M3 theming API
+- **@angular/fire 19** — Google sign-in (Firebase Auth)
+- **Signals** for client state (replaces the old Akita store)
+- **OMDB API** for title search & details
+- **Firebase Cloud Function** REST API for persisting collections
 
-## Build
+## Architecture
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+src/app/
+  core/      Services: auth, OMDB, collections REST adapter, signal store, export/import, route guard
+  models/    Shared TypeScript interfaces (ported from the original app)
+  shared/    Nav bar, confirm dialog
+  dialogs/   Create / import collection, add-to-collection
+  pages/     login, collections (list), collection-detail, search
+```
 
-## Running unit tests
+State lives in `WatchedStore` (Angular signals). `CollectionsService` is the
+REST adapter to the Firebase Cloud Function and keeps the store in sync.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Run
 
-## Running end-to-end tests
+```bash
+npm install
+npm start        # ng serve — http://localhost:4200
+npm run build    # production build
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Backends / config
 
-## Further help
+All endpoints and keys live in `src/environments/environment.ts`:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- `omdb` — OMDB API base URL, key, and number of result pages per search
+- `collectionsApiUrl` — Firebase Cloud Function that stores collections
+- `firebaseConfig` — Firebase project used for Google authentication
+
+## Features
+
+- Google sign-in (app is gated behind auth)
+- Browse collections as a responsive poster grid
+- Create collections, import/export collections as JSON
+- Search across all collections for a title
+- Search OMDB and add results to a collection
+- Per-title actions: copy to / move to another collection, remove
+- Rename and delete collections

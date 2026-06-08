@@ -1,0 +1,58 @@
+<div class="page-shell">
+  <header class="search-head">
+    <h1>Search</h1>
+    <p class="sub">Find any movie or series and add it to one of your collections.</p>
+  </header>
+
+  <div class="search-bar glass">
+    <span class="material-symbols-rounded">search</span>
+    <input
+      #box
+      type="text"
+      placeholder="Search for a movie or series…"
+      autocomplete="off"
+      (keydown.enter)="search(box.value)"
+    />
+    <button mat-flat-button color="primary" (click)="search(box.value)">Search</button>
+  </div>
+
+  @if (loading()) {
+    <div class="state">
+      <span class="spinner"></span>
+      <p>Searching…</p>
+    </div>
+  } @else if (results().length) {
+    <section class="results-grid">
+      @for (item of results(); track item.imdbID) {
+        <article class="result-card">
+          <div class="poster">
+            @if (item.Poster && item.Poster !== 'N/A') {
+              <img [src]="item.Poster" [alt]="item.Title" loading="lazy" />
+            } @else {
+              <span class="material-symbols-rounded">movie</span>
+            }
+            <span class="type-badge">{{ item.Type }}</span>
+          </div>
+          <div class="info">
+            <h3 [title]="item.Title">{{ item.Title }}</h3>
+            <p class="year">{{ item.Year }}</p>
+            <button mat-flat-button color="primary" class="add-btn" (click)="addToCollection(item)">
+              <span class="material-symbols-rounded">add</span>
+              Add
+            </button>
+          </div>
+        </article>
+      }
+    </section>
+  } @else if (searched()) {
+    <div class="state">
+      <span class="material-symbols-rounded big">search_off</span>
+      <p>No results for “{{ term() }}”. Try another title.</p>
+    </div>
+  } @else {
+    <div class="state">
+      <span class="material-symbols-rounded big">movie_filter</span>
+      <p>Start typing a title above to discover something to watch.</p>
+    </div>
+  }
+</div>

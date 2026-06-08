@@ -1,0 +1,85 @@
+<div class="page-shell">
+  <header class="page-head">
+    <div>
+      <h1>My collections</h1>
+      <p class="sub">Organize everything you watch into curated lists.</p>
+    </div>
+    <div class="head-actions">
+      <button mat-stroked-button (click)="import()">
+        <span class="material-symbols-rounded">upload</span>
+        Import
+      </button>
+      <button mat-flat-button color="primary" (click)="create()">
+        <span class="material-symbols-rounded">add</span>
+        New collection
+      </button>
+    </div>
+  </header>
+
+  <div class="search-row glass">
+    <span class="material-symbols-rounded">search</span>
+    <input
+      type="text"
+      placeholder="Find a title across all collections…"
+      [value]="query()"
+      (input)="onSearch($any($event.target).value)"
+    />
+  </div>
+
+  @if (query().trim()) {
+    <section class="results">
+      @if (matches().length) {
+        <h2 class="section-title">{{ matches().length }} match{{ matches().length === 1 ? '' : 'es' }}</h2>
+        <ul class="hit-list">
+          @for (hit of matches(); track hit.collectionId + hit.movieTitle) {
+            <li>
+              <button type="button" class="hit" (click)="open(hit.collectionId)">
+                @if (hit.poster && hit.poster !== 'N/A') {
+                  <img [src]="hit.poster" [alt]="hit.movieTitle" />
+                } @else {
+                  <span class="hit-fallback material-symbols-rounded">movie</span>
+                }
+                <div class="hit-text">
+                  <strong>{{ hit.movieTitle }}</strong>
+                  <span>in {{ hit.collectionName }}</span>
+                </div>
+                <span class="material-symbols-rounded go">chevron_right</span>
+              </button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="no-results">No titles match “{{ query() }}”.</p>
+      }
+    </section>
+  } @else if (isEmpty()) {
+    <div class="empty glass">
+      <span class="material-symbols-rounded">video_library</span>
+      <h2>No collections yet</h2>
+      <p>Create your first collection, then head to Search to add movies and series.</p>
+      <button mat-flat-button color="primary" (click)="create()">
+        <span class="material-symbols-rounded">add</span>
+        Create a collection
+      </button>
+    </div>
+  } @else {
+    <section class="grid">
+      @for (col of collections(); track col.id) {
+        <button class="col-card" (click)="open(col.id)">
+          <div class="poster">
+            @if (posterFor(col.id); as poster) {
+              <img [src]="poster" [alt]="col.name" />
+            } @else {
+              <span class="material-symbols-rounded">local_movies</span>
+            }
+            <span class="count">{{ countFor(col.id) }}</span>
+          </div>
+          <div class="col-meta">
+            <strong>{{ col.name }}</strong>
+            <span>{{ countFor(col.id) }} {{ countFor(col.id) === 1 ? 'title' : 'titles' }}</span>
+          </div>
+        </button>
+      }
+    </section>
+  }
+</div>

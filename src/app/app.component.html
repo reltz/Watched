@@ -1,11 +1,14 @@
-<app-navigation-menu [title]=title [enabled]="(isLoggedIn$ | async)"></app-navigation-menu>
-<div *ngIf="(isLoggedIn$ | async); else forceLogIn">
+@if (isLoggedIn()) {
+  <app-nav-bar />
+}
 
-	<div class="app-wrapper">
-		<router-outlet></router-outlet>
-	</div>
-</div>
-
-<ng-template #forceLogIn>
-	<app-login></app-login>
-</ng-template>
+@if (isLoggedIn() === undefined) {
+  <div class="boot-splash">
+    <span class="boot-mark material-symbols-rounded">movie</span>
+    <span class="boot-text">Watched!</span>
+  </div>
+} @else {
+  <main class="app-main">
+    <router-outlet />
+  </main>
+}

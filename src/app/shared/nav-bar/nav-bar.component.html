@@ -1,0 +1,45 @@
+<header class="nav">
+  <a class="brand" routerLink="/collections">
+    <span class="brand-icon material-symbols-rounded">movie</span>
+    <span class="brand-name">Watched!</span>
+  </a>
+
+  <nav class="nav-links">
+    <a class="nav-link" routerLink="/search" routerLinkActive="active">
+      <span class="material-symbols-rounded">search</span>
+      <span class="nav-label">Search</span>
+    </a>
+
+    <button class="nav-link" [matMenuTriggerFor]="collectionsMenu">
+      <span class="material-symbols-rounded">video_library</span>
+      <span class="nav-label">Collections</span>
+      <span class="material-symbols-rounded chevron">expand_more</span>
+    </button>
+    <mat-menu #collectionsMenu="matMenu" class="app-menu">
+      <a mat-menu-item routerLink="/collections">
+        <span class="material-symbols-rounded">grid_view</span>
+        All collections
+      </a>
+      @if (collections().length) {
+        <div class="menu-divider"></div>
+      }
+      @for (col of collections(); track col.id) {
+        <button mat-menu-item (click)="goToCollection(col.id)">
+          <span class="material-symbols-rounded">local_movies</span>
+          {{ col.name }}
+        </button>
+      }
+    </mat-menu>
+  </nav>
+
+  <div class="nav-end">
+    @if (user(); as u) {
+      @if (u.photoURL) {
+        <img class="avatar" [src]="u.photoURL" [alt]="u.displayName ?? 'You'" referrerpolicy="no-referrer" />
+      }
+      <button class="logout" (click)="logout()" title="Log out">
+        <span class="material-symbols-rounded">logout</span>
+      </button>
+    }
+  </div>
+</header>

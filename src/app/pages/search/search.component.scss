@@ -1,0 +1,130 @@
+.search-head {
+  margin-bottom: 22px;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .sub { margin: 6px 0 0; color: var(--app-text-dim); }
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 18px;
+  height: 60px;
+  margin-bottom: 32px;
+
+  > .material-symbols-rounded { color: var(--app-text-dim); }
+
+  input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--app-text);
+    font: inherit;
+    font-size: 1.05rem;
+    outline: none;
+    &::placeholder { color: var(--app-text-dim); }
+  }
+
+  button { height: 44px; border-radius: 12px; }
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 22px;
+}
+
+.result-card {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--app-accent);
+    box-shadow: var(--app-shadow);
+  }
+
+  .poster {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    background: var(--app-bg-2);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+    > .material-symbols-rounded { font-size: 44px; color: var(--app-text-dim); }
+
+    .type-badge {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: capitalize;
+      border-radius: 999px;
+      background: rgba(11, 13, 20, 0.72);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--app-border);
+    }
+  }
+
+  .info {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    h3 {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .year { margin: 0; color: var(--app-text-dim); font-size: 0.85rem; }
+
+    .add-btn {
+      margin-top: 4px;
+      border-radius: 10px;
+      .material-symbols-rounded { font-size: 18px; margin-right: 2px; vertical-align: -4px; }
+    }
+  }
+}
+
+.state {
+  text-align: center;
+  padding: 70px 24px;
+  color: var(--app-text-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  .big { font-size: 56px; color: var(--app-accent); opacity: 0.8; }
+  p { margin: 0; }
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid var(--app-surface-hover);
+  border-top-color: var(--app-accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }

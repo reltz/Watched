@@ -1,0 +1,116 @@
+<div class="page-shell">
+  @if (collection(); as col) {
+    <a class="back" routerLink="/collections">
+      <span class="material-symbols-rounded">arrow_back</span>
+      All collections
+    </a>
+
+    <header class="detail-head">
+      <div class="title-block">
+        @if (editingName()) {
+          <input
+            #nameInput
+            class="title-input"
+            [value]="col.name"
+            (blur)="commitRename($any($event.target).value)"
+            (keydown.enter)="$any($event.target).blur()"
+          />
+        } @else {
+          <button type="button" class="title-btn" (click)="startRename()" title="Rename collection">
+            <h1>{{ col.name }}</h1>
+            <span class="material-symbols-rounded edit">edit</span>
+          </button>
+        }
+        <p class="sub">{{ col.movies.length }} {{ col.movies.length === 1 ? 'title' : 'titles' }}</p>
+      </div>
+
+      <div class="head-actions">
+        <button mat-stroked-button (click)="export()" [disabled]="!col.movies.length">
+          <span class="material-symbols-rounded">download</span>
+          Export
+        </button>
+        <button mat-stroked-button color="warn" (click)="deleteCollection()">
+          <span class="material-symbols-rounded">delete</span>
+          Delete
+        </button>
+      </div>
+    </header>
+
+    @if (col.movies.length) {
+      <section class="movie-grid">
+        @for (movie of col.movies; track movie.Id) {
+          <article class="movie-card">
+            <div class="poster">
+              @if (movie.PosterUrl && movie.PosterUrl !== 'N/A') {
+                <img [src]="movie.PosterUrl" [alt]="movie.Title" />
+              } @else {
+                <span class="material-symbols-rounded">movie</span>
+              }
+              <span class="type-badge">{{ movie.Type }}</span>
+
+              <button class="card-menu" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                <span class="material-symbols-rounded">more_vert</span>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="copyMovie(movie)">
+                  <span class="material-symbols-rounded">content_copy</span> Copy to…
+                </button>
+                <button mat-menu-item (click)="moveMovie(movie)">
+                  <span class="material-symbols-rounded">drive_file_move</span> Move to…
+                </button>
+                <button mat-menu-item (click)="removeMovie(movie)">
+                  <span class="material-symbols-rounded">delete</span> Remove
+                </button>
+              </mat-menu>
+            </div>
+
+            <div class="info">
+              <h3 [title]="movie.Title">{{ movie.Title }}</h3>
+              <p class="meta">{{ movie.Year }} · {{ movie.Runtime }}</p>
+
+              <div class="ratings">
+                @if (ratingPercent(movie.IMDBRating); as imdb) {
+                  <span class="rating imdb" title="IMDB">
+                    <strong>IMDb</strong> {{ imdb }}%
+                  </span>
+                }
+                @if (ratingPercent(movie.RottenTomatoesRating); as rt) {
+                  <span class="rating rt" title="Rotten Tomatoes">
+                    <span class="material-symbols-rounded">eco</span> {{ rt }}%
+                  </span>
+                }
+              </div>
+
+              @if (movie.Genres.length) {
+                <div class="genres">
+                  @for (genre of movie.Genres.slice(0, 3); track genre) {
+                    <span class="chip">{{ genre }}</span>
+                  }
+                </div>
+              }
+
+              @if (movie.Director) {
+                <p class="credit"><span>Director</span> {{ movie.Director }}</p>
+              }
+              @if (movie.Actors.length) {
+                <p class="credit"><span>Cast</span> {{ movie.Actors.slice(0, 3).join(', ') }}</p>
+              }
+            </div>
+          </article>
+        }
+      </section>
+    } @else {
+      <div class="empty glass">
+        <span class="material-symbols-rounded">add_to_queue</span>
+        <h2>This collection is empty</h2>
+        <p>Head to Search to find movies and series, then add them here.</p>
+        <button mat-flat-button color="primary" routerLink="/search">
+          <span class="material-symbols-rounded">search</span>
+          Go to Search
+        </button>
+      </div>
+    }
+  } @else {
+    <div class="loading">Loading collection…</div>
+  }
+</div>
