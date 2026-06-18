@@ -9,6 +9,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
+import {
+  CdkDragDrop,
+  DragDropModule,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,7 +36,7 @@ import {
 @Component({
   selector: 'app-collection-detail',
   standalone: true,
-  imports: [MatButtonModule, MatMenuModule, RouterLink, UpperCasePipe],
+  imports: [MatButtonModule, MatMenuModule, RouterLink, UpperCasePipe, DragDropModule],
   templateUrl: './collection-detail.component.html',
   styleUrl: './collection-detail.component.scss',
 })
@@ -80,6 +85,17 @@ export class CollectionDetailComponent {
       return;
     }
     await this.collectionsSvc.upsert({ ...col, name });
+  }
+
+  /** Reorder titles within the collection via drag-and-drop. */
+  drop(event: CdkDragDrop<IMovie[]>): void {
+    const col = this.collection();
+    if (!col || event.previousIndex === event.currentIndex) {
+      return;
+    }
+    const movies = [...col.movies];
+    moveItemInArray(movies, event.previousIndex, event.currentIndex);
+    this.collectionsSvc.reorderMovies(col.id, movies);
   }
 
   export(): void {

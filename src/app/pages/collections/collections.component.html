@@ -52,6 +52,11 @@
         <p class="no-results">No titles match “{{ query() }}”.</p>
       }
     </section>
+  } @else if (loading()) {
+    <div class="state">
+      <span class="spinner"></span>
+      <p>Loading your collections…</p>
+    </div>
   } @else if (isEmpty()) {
     <div class="empty glass">
       <span class="material-symbols-rounded">video_library</span>

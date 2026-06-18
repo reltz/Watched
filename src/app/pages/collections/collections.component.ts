@@ -27,6 +27,7 @@ export class CollectionsComponent {
 
   readonly collections = this.store.collections;
   readonly isEmpty = this.store.isEmpty;
+  readonly loading = this.store.loading;
   readonly query = signal('');
 
   /** Movies across all collections whose title matches the filter. */

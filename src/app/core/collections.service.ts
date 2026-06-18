@@ -43,6 +43,7 @@ export class CollectionsService {
 
   /** Load all collections for the signed-in user into the store. */
   async loadAll(): Promise<void> {
+    this.store.setLoading(true);
     try {
       const headers = await this.authHeaders();
       const data = await firstValueFrom(
@@ -56,6 +57,8 @@ export class CollectionsService {
       this.store.setAll(collections);
     } catch (error) {
       console.warn('Failed to load collections: ', error);
+    } finally {
+      this.store.setLoading(false);
     }
   }
 
@@ -97,6 +100,26 @@ export class CollectionsService {
       collection.movies[index] = movie;
     }
     await this.upsert(collection);
+  }
+
+  /**
+   * Persist a new movie ordering for a collection. Updates the store
+   * optimistically so the UI reflects the drop immediately, then reverts
+   * by reloading if the backend rejects the change.
+   */
+  async reorderMovies(collectionId: string, movies: IMovie[]): Promise<void> {
+    const collection = this.cloneCollection(collectionId);
+    if (!collection) {
+      return;
+    }
+    collection.movies = movies;
+    this.store.upsert(collection);
+    try {
+      await this.upsert(collection);
+    } catch (error) {
+      console.warn('Failed to save new order: ', error);
+      await this.loadAll();
+    }
   }
 
   async removeMovie(collectionId: string, movieId: string): Promise<void> {
