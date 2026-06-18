@@ -8,6 +8,7 @@ import { ICollection } from '../models/api-models';
 @Injectable({ providedIn: 'root' })
 export class WatchedStore {
   private readonly _collections = signal<ICollection[]>([]);
+  private readonly _loading = signal(true);
 
   /** All collections, sorted alphabetically. */
   readonly collections = computed(() =>
@@ -15,6 +16,13 @@ export class WatchedStore {
   );
 
   readonly isEmpty = computed(() => this._collections().length === 0);
+
+  /** True while collections are being (re)loaded from the backend. */
+  readonly loading = this._loading.asReadonly();
+
+  setLoading(loading: boolean): void {
+    this._loading.set(loading);
+  }
 
   setAll(collections: ICollection[]): void {
     this._collections.set(collections);
@@ -42,5 +50,6 @@ export class WatchedStore {
 
   reset(): void {
     this._collections.set([]);
+    this._loading.set(true);
   }
 }

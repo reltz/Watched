@@ -85,6 +85,8 @@
     box-shadow: var(--app-shadow);
   }
 
+  &:hover .drag-handle { opacity: 1; }
+
   .poster {
     position: relative;
     aspect-ratio: 16 / 10;
@@ -108,6 +110,28 @@
       background: rgba(11, 13, 20, 0.72);
       backdrop-filter: blur(6px);
       border: 1px solid var(--app-border);
+    }
+
+    .drag-handle {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(11, 13, 20, 0.66);
+      backdrop-filter: blur(6px);
+      color: white;
+      cursor: grab;
+      opacity: 0.9;
+      transition: background 0.16s, opacity 0.16s;
+
+      &:active { cursor: grabbing; }
+      &:hover { background: rgba(11, 13, 20, 0.9); opacity: 1; }
+      .material-symbols-rounded { font-size: 20px; }
     }
 
     .card-menu {
@@ -306,4 +330,30 @@
   margin-right: 10px;
   vertical-align: -5px;
   font-size: 20px;
+}
+
+/* ---- Drag & drop reordering ---- */
+.movie-grid.cdk-drop-list-dragging .movie-card:not(.cdk-drag-placeholder) {
+  transition: transform 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.movie-card.cdk-drag-preview {
+  border-color: var(--app-accent);
+  box-shadow: var(--app-shadow);
+  transform: none;
+  cursor: grabbing;
+
+  .drag-handle { opacity: 1; }
+}
+
+/* Default clone placeholder keeps the card's footprint so the grid
+   geometry stays correct; we just dim it to show the target slot. */
+.movie-card.cdk-drag-placeholder {
+  opacity: 0.35;
+  border-style: dashed;
+  border-color: var(--app-accent);
+}
+
+.cdk-drag-animating {
+  transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1);
 }

@@ -37,9 +37,14 @@
     </header>
 
     @if (col.movies.length) {
-      <section class="movie-grid">
+      <section
+        class="movie-grid"
+        cdkDropList
+        cdkDropListOrientation="mixed"
+        (cdkDropListDropped)="drop($event)"
+      >
         @for (movie of col.movies; track movie.Id) {
-          <article class="movie-card">
+          <article class="movie-card" cdkDrag>
             <div class="poster">
               @if (movie.PosterUrl && movie.PosterUrl !== 'N/A') {
                 <img [src]="movie.PosterUrl" [alt]="movie.Title" />
@@ -47,6 +52,10 @@
                 <span class="material-symbols-rounded">movie</span>
               }
               <span class="type-badge">{{ movie.Type }}</span>
+
+              <button class="drag-handle" cdkDragHandle title="Drag to reorder">
+                <span class="material-symbols-rounded">drag_indicator</span>
+              </button>
 
               <button class="card-menu" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
                 <span class="material-symbols-rounded">more_vert</span>

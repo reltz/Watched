@@ -166,3 +166,25 @@
 }
 
 .no-results { color: var(--app-text-dim); }
+
+.state {
+  padding: 70px 24px;
+  color: var(--app-text-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  p { margin: 0; }
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid var(--app-surface-hover);
+  border-top-color: var(--app-accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
