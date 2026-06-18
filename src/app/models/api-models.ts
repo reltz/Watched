@@ -34,6 +34,25 @@ export interface IMovie {
   IMDBRating?: number;
   UserRating?: number;
   UserNotes: string;
+  /** Where the title is available to watch, fetched on demand. */
+  Streaming?: IStreamingInfo;
+}
+
+/** A single streaming service offering a title (grouped across offer types). */
+export interface IStreamingOption {
+  serviceId: string;
+  service: string;
+  /** Offer types available on this service: subscription | rent | buy | free | addon. */
+  types: string[];
+  link: string;
+  logoUrl?: string;
+}
+
+/** Streaming availability for a title in one country, with the time it was fetched. */
+export interface IStreamingInfo {
+  country: string;
+  options: IStreamingOption[];
+  updatedAt: string;
 }
 
 export interface IRating {
