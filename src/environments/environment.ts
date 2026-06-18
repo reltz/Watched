@@ -9,6 +9,15 @@ export const environment = {
     searchPages: 4,
   },
 
+  // Streaming availability lookups are proxied through our own Firebase
+  // function (which holds the RapidAPI key as a server-side secret), so no
+  // API key ever lives in this client bundle.
+  streaming: {
+    apiUrl: 'https://us-central1-tasklistdb.cloudfunctions.net/app/streaming',
+    // ISO country code to look up availability in (e.g. 'us', 'br', 'gb').
+    country: 'ca',
+  },
+
   // Firebase Cloud Function REST API that stores user collections.
   collectionsApiUrl: 'https://us-central1-tasklistdb.cloudfunctions.net/app/collection',
 

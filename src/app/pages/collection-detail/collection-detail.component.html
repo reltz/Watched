@@ -95,6 +95,55 @@
               @if (movie.Actors.length) {
                 <p class="credit"><span>Cast</span> {{ movie.Actors.slice(0, 3).join(', ') }}</p>
               }
+
+              <div class="streaming">
+                <div class="streaming-head">
+                  <span class="streaming-label">
+                    Streaming
+                    @if (movie.Streaming) {
+                      <em>· {{ movie.Streaming.country | uppercase }}</em>
+                    }
+                  </span>
+                  <button
+                    type="button"
+                    class="refresh"
+                    [disabled]="isRefreshing(movie.Id)"
+                    [title]="movie.Streaming ? 'Refresh streaming availability' : 'Check streaming availability'"
+                    (click)="refreshStreaming(movie)"
+                  >
+                    <span class="material-symbols-rounded" [class.spin]="isRefreshing(movie.Id)">
+                      {{ movie.Streaming ? 'refresh' : 'live_tv' }}
+                    </span>
+                  </button>
+                </div>
+
+                @if (movie.Streaming) {
+                  @if (movie.Streaming.options.length) {
+                    <div class="providers">
+                      @for (opt of movie.Streaming.options; track opt.serviceId) {
+                        <a
+                          class="provider"
+                          [href]="opt.link"
+                          target="_blank"
+                          rel="noopener"
+                          [title]="opt.service + ' (' + opt.types.join(', ') + ')'"
+                        >
+                          @if (opt.logoUrl) {
+                            <img [src]="opt.logoUrl" [alt]="opt.service" />
+                          } @else {
+                            <span class="provider-name">{{ opt.service }}</span>
+                          }
+                          <span class="provider-type">{{ opt.types.join(' · ') }}</span>
+                        </a>
+                      }
+                    </div>
+                  } @else {
+                    <p class="streaming-empty">Not streaming in {{ movie.Streaming.country | uppercase }}.</p>
+                  }
+                } @else if (!isRefreshing(movie.Id)) {
+                  <p class="streaming-empty">Tap to check where it's streaming.</p>
+                }
+              </div>
             </div>
           </article>
         }

@@ -8,6 +8,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { UpperCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +17,7 @@ import { firstValueFrom } from 'rxjs';
 import { ICollection, IMovie } from '../../models/api-models';
 import { CollectionsService } from '../../core/collections.service';
 import { ExportImportService } from '../../core/export-import.service';
+import { StreamingService } from '../../core/streaming.service';
 import { WatchedStore } from '../../core/watched-store';
 import {
   AddToCollectionData,
@@ -29,7 +31,7 @@ import {
 @Component({
   selector: 'app-collection-detail',
   standalone: true,
-  imports: [MatButtonModule, MatMenuModule, RouterLink],
+  imports: [MatButtonModule, MatMenuModule, RouterLink, UpperCasePipe],
   templateUrl: './collection-detail.component.html',
   styleUrl: './collection-detail.component.scss',
 })
@@ -40,8 +42,12 @@ export class CollectionDetailComponent {
   private readonly store = inject(WatchedStore);
   private readonly collectionsSvc = inject(CollectionsService);
   private readonly exportImport = inject(ExportImportService);
+  private readonly streaming = inject(StreamingService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+
+  /** Ids of movies whose streaming info is currently being (re)fetched. */
+  readonly refreshing = signal<ReadonlySet<string>>(new Set());
 
   readonly collection = computed<ICollection | undefined>(() =>
     this.store.collections().find((c) => c.id === this.id()),
@@ -142,5 +148,39 @@ export class CollectionDetailComponent {
 
   ratingPercent(value?: number): number | null {
     return value === undefined || Number.isNaN(value) ? null : Math.round(value);
+  }
+
+  isRefreshing(movieId: string): boolean {
+    return this.refreshing().has(movieId);
+  }
+
+  /** Fetch streaming availability for a single title and persist it on the movie. */
+  async refreshStreaming(movie: IMovie): Promise<void> {
+    const col = this.collection();
+    if (!col || this.isRefreshing(movie.Id)) {
+      return;
+    }
+
+    this.setRefreshing(movie.Id, true);
+    try {
+      const streaming = await this.streaming.getStreaming(movie.Id);
+      await this.collectionsSvc.upsertMovie({ ...movie, Streaming: streaming }, col.id);
+    } catch (error) {
+      console.warn('Failed to refresh streaming info: ', error);
+    } finally {
+      this.setRefreshing(movie.Id, false);
+    }
+  }
+
+  private setRefreshing(movieId: string, active: boolean): void {
+    this.refreshing.update((set) => {
+      const next = new Set(set);
+      if (active) {
+        next.add(movieId);
+      } else {
+        next.delete(movieId);
+      }
+      return next;
+    });
   }
 }
